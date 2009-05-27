@@ -1,0 +1,65 @@
+@import "/blueprint/src/reset.css";
+@import "/blueprint/src/typography.css";
+body {
+  background-color:#e2fae4;
+}
+h1 {
+}
+h1, h2 {
+  padding-left:5px;
+  padding-top:2px;
+}
+h3 {
+  line-height:20px;
+  padding: 0px;
+  margin:0px;
+  text-decoration: none;
+}
+h4 {
+  color:#000;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+a {
+  text-decoration: none;
+  color:#2676d1;
+}
+h1 a {
+
+}
+h1 a, h2 a {
+  color:#e2fae4;
+}
+#artists {
+  position: relative;
+  top:50px;
+  
+}
+.wrapper {
+  float:left;
+  padding-left: 10px;
+  width:80%;  
+}
+#header {
+  width:100%;
+  height:40px;
+  position:fixed;
+  background: url("bar.png") #FFFFFF repeat-x;
+  z-index:20;
+}
+#header img {
+  position:absolute;
+  top:0px;
+  right:0px;
+}
+
+/* stop the float */
+br
+{
+  clear: left;
+}
+
+/* separate the list from subsequent markup */
+div.wrapper
+{
+}
