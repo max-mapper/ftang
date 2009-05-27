@@ -8,9 +8,11 @@ helpers do
   alias_method :escaped, :escape_html
 end
 
+@base_dir = "/public" 
+
 get '/' do
   @artists = []
-  path = Pow("public/music/")
+  path = Pow("/")
   path.directories.each do |artist| 
     @artists << artist.name
   end
@@ -19,7 +21,7 @@ end
 
 get '/play/:artist' do
   @albums = {}
-  path = Pow("public/music/#{params[:artist]}/")
+  path = Pow("#{@base_dir}#{params[:artist]}/")
   path.directories.each do |album|
     @art = "/music/#{params[:artist]}/#{album.name}/folder.jpeg"
     if album['folder.jpeg'].exists?
@@ -34,7 +36,7 @@ end
 
 get '/play/:artist/:album' do
   @songs = {}
-  path = Pow("public/music/#{params[:artist]}/#{params[:album]}/")
+  path = Pow("#{@base_dir}#{params[:artist]}/#{params[:album]}/")
   path.files.each do |song|
     @songs.merge!({"#{song.name}" => "/music/#{params[:artist]}/#{params[:album]}/#{song.name}"})
   end
