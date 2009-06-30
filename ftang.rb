@@ -1,19 +1,20 @@
-require 'rubygems'
-require 'sinatra'
-require 'pow'
-require 'haml'
-
-helpers do
-  include Rack::Utils
-  alias_method :escaped, :escape_html
-end
+# require 'rubygems'
+# require 'sinatra'
+# require 'pow'
+# require 'haml'
+# 
+# helpers do
+#   include Rack::Utils
+#   alias_method :escaped, :escape_html
+# end
 
 get '/' do
   @artists = []
-  path = Pow("public/music/")
+  path = Pow("/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/music")
   path.directories.each do |artist| 
     @artists << artist.name
   end
+  @artists.sort!
   haml :index
 end
 
@@ -48,6 +49,22 @@ get '/play/:artist/:album' do
   haml :album
 end
 
-# not_found do
-#   haml :"404"
-# end
+get '/allcovers' do
+  @artists = {}
+  path = Pow("public/music/")
+  path.directories.each do |artist|
+    albums = []
+    artist.directories.each do |album|
+      if album['folder.jpeg'].exists?
+        albums << album.name
+      end
+    end
+    @artists.merge!({"#{artist.name}" => albums})
+  end
+  @artists = @artists.sort
+  haml :all
+end
+
+not_found do
+  haml :"404"
+end

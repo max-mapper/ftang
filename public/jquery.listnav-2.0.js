@@ -186,7 +186,7 @@
       function createLettersHtml(){
         var html = [];
         for(var i=1;i<letters.length;i++){
-          if (html.length == 0) html.push('<a class="all" href="#">ALL</a><a class="_" href="#">0-9</a>');
+          if (html.length == 0) html.push('<a class="all" href="#">ALL</a><a class="_" href="#">#</a>');
           html.push('<a class="' + letters[i] + '" href="#">' + letters[i].toUpperCase() + '</a>');
         }
         return '<div class="ln-letters">' + html.join('') + '</div>' + ((opts.showCounts) ? '<div class="ln-letter-count" style="display:none; position:absolute; top:0; left:0; width:20px;">0</div>' : ''); // the styling for ln-letter-count is to give us a starting point for the element, which will be repositioned when made visible (ie, should not need to be styled by the user)

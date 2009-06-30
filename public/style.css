@@ -1,45 +1,90 @@
 @import "/blueprint/src/reset.css";
 @import "/blueprint/src/typography.css";
 body {
-  background-color:#e2fae4;
+  background-color:#FFF; 
 }
-h1 {
+
+html, body {
+    /* get rid of default spacing on the edges */
+    margin: 0;
+    padding: 0;
+
+    /* get rid of that 2px window border in Internet Explorer 6 */
+    border: 0;
+
+    /* fill the height of the browser */
+    height: 100%;
+
+    /* no more scroll bar */
 }
+
+li {
+  list-style: none;
+  background:#fff;
+  text-align: left;
+  float: left;
+  font-family: Helvetica;
+  padding-right: 6px;
+  line-height:1.2em;
+  margin: 1px;
+  padding-left: 6px;
+}
+
+li:hover {
+  color: #f1e900;
+}
+.ln-letters .all {
+  width: 60px;
+}
+.ln-letters { overflow:hidden; }
+.ln-letters a { text-align:center; width: 3%; font-size:29.5px; display:block; float:left; padding:2px 2px; border-right:none; text-decoration:none; }
+.ln-letters a:hover,
+.ln-letters a.ln-selected { background-color:#eaeaea; }
+.ln-letters a.ln-disabled { color:#ccc; }
+.ln-letter-count { text-align:center; font-size:0.8em; line-height:1; margin-bottom:3px; color:#336699; }
+
+/*
+.listNav {height: 100%; display: block;}
+.ln-letters { padding-right: 5px; text-align: center;width: 60px; float:left; display: block; overflow: hidden;}
+.ln-letters a { font-size:29px; line-height: 1em;display:block; padding:2px 1.3%; border-right:none; text-decoration:none; }
+.ln-letters a:hover, .ln-letters a.ln-selected { background-color:#eee; }
+.ln-letters a.ln-disabled { color:#ccc; }
+.ln-no-match {color: #ccc;}
+*/
+
 h1, h2 {
   padding-left:5px;
   padding-top:2px;
+  color:#e2fae4;
 }
+
+h2 a {
+  color: #e2fae4;
+}
+
 h3 {
   line-height:20px;
   padding: 0px;
   margin:0px;
-  text-decoration: none;
+  color:#000;
 }
+
+h3:hover {
+  color:#123;
+}
+
 h4 {
   color:#000;
   padding-left: 5px;
   padding-top: 5px;
 }
+
 a {
   text-decoration: none;
-  color:#2676d1;
+  /*color:#59d8e5;*/
+  color:#ccc;
 }
-h1 a {
 
-}
-h1 a, h2 a {
-  color:#e2fae4;
-}
-#artists {
-  position: relative;
-  top:50px;
-  
-}
-.wrapper {
-  float:left;
-  padding-left: 10px;
-  width:80%;  
-}
 #header {
   width:100%;
   height:40px;
@@ -47,10 +92,68 @@ h1 a, h2 a {
   background: url("bar.png") #FFFFFF repeat-x;
   z-index:20;
 }
+
 #header img {
   position:absolute;
   top:0px;
   right:0px;
+}
+
+#cover {
+  float:left;
+  width:300px;
+  height:325px;
+  text-align:bottom;
+  margin: 0px 20px 20px 20px;
+}
+
+#cover img {
+  border:5px solid #ccc;
+}
+
+#cover span {
+  color: #000;
+}
+
+#covers {
+  float: left;
+  padding: 50px 3px 5px 3px;
+  font-size: 18px;
+  color: #ccc;
+}
+
+a:hover {
+  color:#f1e900;
+}
+
+#tiles-nav {
+padding-top:40px;
+float:left;
+display:inline;
+width: 98%;
+overflow:hidden;
+}
+
+#tiles {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-right:15px;
+  padding-top:25px;
+  text-align: justify; 
+}
+
+#nocovers {
+  float:left;
+  width:300px;
+  height:300px;
+  text-align:bottom;
+  margin: 0px 20px 20px 15px;
+  border:5px solid #ccc;
+}
+
+#nocovers h3 {
+  margin-top:20%;
+  line-height:1.5em;
 }
 
 /* stop the float */
@@ -60,6 +163,3 @@ br
 }
 
 /* separate the list from subsequent markup */
-div.wrapper
-{
-}

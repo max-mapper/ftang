@@ -34,7 +34,7 @@ Documentation: www.happyworm.com/jquery/jplayer
 			var config = {
 				ready: null,
 				cssPrefix: "jqjp",
-				swfPath: "/js",
+				swfPath: "/swf",
 				quality: "high",
 				width: 0,
 				height: 0,

@@ -8,7 +8,6 @@
         }
     %title== Ftang! Player
     %link{:rel => "stylesheet", :type => "text/css", :href => "/style.css"}
-    %link{:rel => "stylesheet", :type => "text/css", :href => "/application.css"}
     %script{:type => "text/javascript", :src => "http://jqueryjs.googlecode.com/files/jquery-1.3.js"}
 
 
@@ -17,15 +16,25 @@
       %h2
         %a{:href => '/'}
           Ftang! Player
-    #tiles
+        >
+        %a{:href => "/play/#{params[:artist]}"}
+          =params[:artist]
+    #covers
+      - @albums.each do |album, art|
+        - if art != "missing"
+          #cover
+            %a{:href => "/play/#{params[:artist]}/#{album}"}
+              %img{:src => "#{art}", :width => '300px', :height => '300px', :style => "z-index:100"}
+              %span{:style => "z-index:200"}
+                %br
+                %center
+                  =album
       - @albums.each do |album, art|
         - if art == "missing"
-          %div{:class => 'tile'}
+          #nocovers
             %a{:href => "/play/#{params[:artist]}/#{album}"}
-              =album
-        - else
-          %div{:class => 'tile', :style => "width:300px; height:300px"}
-            %a{:href => "/play/#{params[:artist]}/#{album}"}
-              %img{:src => "#{art}", :width => '300px', :style => "z-index:100"}
-              %span{:style => "z-index:200"}
-                =album
+              %h3
+                %center
+                  =album
+              %br
+

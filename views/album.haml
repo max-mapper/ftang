@@ -7,17 +7,21 @@
         location.href='/iphone';
         }
     %title== Ftang! Player
-    %link{:rel => "stylesheet", :type => "text/css", :href => "/style.css"}
     %script{:type => "text/javascript", :src => "http://jqueryjs.googlecode.com/files/jquery-1.3.js"}
     %script{:type => "text/javascript", :src => "/jquery.jplayer.js"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "/jplayer.css"}
-    / %script{:type => "text/javascript", :src => "jplayerinit.js"}
 
   %body
     #header
       %h2
         %a{:href => '/'}
           Ftang! Player
+        >
+        %a{:href => "/play/#{params[:artist]}"}
+          =params[:artist]
+        >
+        %a{:href => "/play/#{params[:artist]}/#{params[:album]}"}
+          =params[:album]
     #jquery_jplayer
     #player_container
       %ul#player_controls
