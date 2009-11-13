@@ -31,11 +31,12 @@ def retrieve(artist, album)
   end
 end
 
-path = Pow("/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/music")
-path.directories.each do |artist| 
+path = Pow("/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/taco")
+path.directories.each do |artist|
+  puts artist.inspect
   artist.directories.each do |album|
     puts "Processing Artist: #{artist.name}, Album: #{album.name}..."
-    jpegpath = "/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/music/#{artist.name}/#{album.name}/folder.jpeg"
+    jpegpath = "/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/taco/#{artist.name}/#{album.name}/folder.jpeg"
     unless Pow(jpegpath).exists?
       cover = retrieve(artist.name, album.name)
       rio(jpegpath) < rio(cover) unless cover.nil?

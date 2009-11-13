@@ -143,7 +143,7 @@
         
         // click handler for letters: shows/hides relevant LI's
         //
-        $('a', $letters).hover(function(){
+        $('a', $letters).hoverIntent(function(){
           $('a.ln-selected', $letters).removeClass('ln-selected');
 
           var letter = $(this).attr('class').split(' ')[0];
@@ -178,7 +178,7 @@
           if (!firstClick && (opts.onClick != null)) opts.onClick(letter);
           else firstClick = false;
           return false;
-        });
+        }, function () {});
       }
       
       // creates the HTML for the letter links

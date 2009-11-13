@@ -1,5 +1,6 @@
 @import "/blueprint/src/reset.css";
 @import "/blueprint/src/typography.css";
+
 body {
   background-color:#FFF; 
 }
@@ -33,33 +34,41 @@ li {
 li:hover {
   color: #f1e900;
 }
-.ln-letters .all {
-  width: 60px;
-}
-.ln-letters { overflow:hidden; }
-.ln-letters a { text-align:center; width: 3%; font-size:29.5px; display:block; float:left; padding:2px 2px; border-right:none; text-decoration:none; }
+
+.ln-letters { overflow:hidden; width:100%; height:40px; }
+.ln-letters a { overflow:hidden;text-align:center; font-size:29.5px; width: 3.4%; margin:0px; display:block; float:left; border-right:none; text-decoration:none; }
 .ln-letters a:hover,
 .ln-letters a.ln-selected { background-color:#eaeaea; }
 .ln-letters a.ln-disabled { color:#ccc; }
+.ln-letters a.all { width:60px; }
 .ln-letter-count { text-align:center; font-size:0.8em; line-height:1; margin-bottom:3px; color:#336699; }
 
-/*
-.listNav {height: 100%; display: block;}
-.ln-letters { padding-right: 5px; text-align: center;width: 60px; float:left; display: block; overflow: hidden;}
-.ln-letters a { font-size:29px; line-height: 1em;display:block; padding:2px 1.3%; border-right:none; text-decoration:none; }
-.ln-letters a:hover, .ln-letters a.ln-selected { background-color:#eee; }
-.ln-letters a.ln-disabled { color:#ccc; }
-.ln-no-match {color: #ccc;}
-*/
 
-h1, h2 {
-  padding-left:5px;
-  padding-top:2px;
+h1 {
   color:#e2fae4;
 }
 
-h2 a {
-  color: #e2fae4;
+h2 {
+  padding:3px 0px 0px 3px;
+  margin:0px;
+  line-height:40px;
+  font-size:35px;
+  float:left;
+}
+
+h1 a, h2 a {
+  color:#e2fae4;
+}
+
+h2 a:hover {
+  color: #FFF;
+}
+
+.separator {
+  float:left;
+  padding:0px 3px 0px 3px;
+  margin:0px 0px 3px 0px;
+  font-size:30px;
 }
 
 h3 {
@@ -87,9 +96,9 @@ a {
 
 #header {
   width:100%;
-  height:40px;
+  height:46px;
   position:fixed;
-  background: url("bar.png") #FFFFFF repeat-x;
+  background: #00c0f3;
   z-index:20;
 }
 
@@ -123,23 +132,22 @@ a {
 }
 
 a:hover {
-  color:#f1e900;
+  color:#00c0f3;
 }
 
 #tiles-nav {
 padding-top:40px;
-float:left;
-display:inline;
-width: 98%;
+display:block;
+margin-left:auto;
+margin-right:auto;
 overflow:hidden;
 }
 
 #tiles {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-right:15px;
-  padding-top:25px;
-  text-align: justify; 
+float:left;
+padding:3px 0px 0px 0px;
+margin:0px;
+font-size: 18px;
 }
 
 #nocovers {

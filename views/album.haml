@@ -9,13 +9,15 @@
     %title== Ftang! Player
     %script{:type => "text/javascript", :src => "http://jqueryjs.googlecode.com/files/jquery-1.3.js"}
     %script{:type => "text/javascript", :src => "/jquery.jplayer.js"}
+    %script{:type => "text/javascript", :src => "http://www.google-analytics.com/urchin.js"}
+    
     %link{:rel => "stylesheet", :type => "text/css", :href => "/jplayer.css"}
 
   %body
     #header
       %h2
         %a{:href => '/'}
-          Ftang! Player
+          FTANG!
         >
         %a{:href => "/play/#{params[:artist]}"}
           =params[:artist]
@@ -62,10 +64,23 @@
         #player_volume_bar_value
     #playlist_list
       %ul
-
+      %p{:style => "padding-left:10px"}
+        %i
+          all music here is licensed and subject to the stipulations of the DMCA. do not download, modify, or distribute these files. questions?
+          %a{:href => "http://www.maxogden.com", :style => "color: #00c0f3"}
+            contact me
+    #album_cover
+      -unless @cover.nil?
+        %img{:src => @cover, :id => "album_cover_image"}
   
   :javascript
+    
     $(document).ready(function(){
+
+      try {
+      _uacct = "UA-9156272-1";
+      urchinTracker();
+      } catch(err) {}
 
       var usePlayList = false;
       var playItem = 0;
@@ -173,4 +188,3 @@
         }
       }
     });
-  

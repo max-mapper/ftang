@@ -10,7 +10,7 @@
 
 get '/' do
   @artists = []
-  path = Pow("/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/music")
+  path = Pow("/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/taco")
   path.directories.each do |artist| 
     @artists << artist.name
   end
@@ -20,9 +20,9 @@ end
 
 get '/play/:artist' do
   @albums = {}
-  path = Pow("public/music/#{params[:artist]}/")
+  path = Pow("public/taco/#{params[:artist]}/")
   path.directories.each do |album|
-    @art = "/music/#{params[:artist]}/#{album.name}/folder.jpeg"
+    @art = "/taco/#{params[:artist]}/#{album.name}/folder.jpeg"
     if album['folder.jpeg'].exists?
       @albums.merge!({"#{album.name}" => @art})
     else
@@ -35,9 +35,10 @@ end
 
 get '/play/:artist/:album' do
   @songs = {}
-  path = Pow("public/music/#{params[:artist]}/#{params[:album]}/")
+  path = Pow("public/taco/#{params[:artist]}/#{params[:album]}/")
+  @cover = "/taco/#{params[:artist]}/#{params[:album]}/#{path['folder.jpeg'].name}" unless path['folder.jpeg'].nil?
   path.files.each do |song|
-    @songs.merge!({"#{song.name}" => "/music/#{params[:artist]}/#{params[:album]}/#{song.name}"})
+    @songs.merge!({"#{song.name}" => "/taco/#{params[:artist]}/#{params[:album]}/#{song.name}"})
   end
   @songs = @songs.sort{|a,b| a[1]<=>b[1]}
   @playlist = "["
@@ -51,7 +52,7 @@ end
 
 get '/allcovers' do
   @artists = {}
-  path = Pow("public/music/")
+  path = Pow("public/taco/")
   path.directories.each do |artist|
     albums = []
     artist.directories.each do |album|

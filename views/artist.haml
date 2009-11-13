@@ -15,8 +15,10 @@
     #header
       %h2
         %a{:href => '/'}
-          Ftang! Player
+          FTANG!
+      %span.separator 
         >
+      %h2
         %a{:href => "/play/#{params[:artist]}"}
           =params[:artist]
     #covers
@@ -26,7 +28,6 @@
             %a{:href => "/play/#{params[:artist]}/#{album}"}
               %img{:src => "#{art}", :width => '300px', :height => '300px', :style => "z-index:100"}
               %span{:style => "z-index:200"}
-                %br
                 %center
                   =album
       - @albums.each do |album, art|
@@ -37,4 +38,12 @@
                 %center
                   =album
               %br
+  :javascript
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    try {
+    var pageTracker = _gat._getTracker("UA-9156272-1");
+    pageTracker._trackPageview();
+    } catch(err) {}
+  
 
