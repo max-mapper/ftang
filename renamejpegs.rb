@@ -4,7 +4,7 @@ require '/home/maxo/.gems/gems/pow-0.2.2/lib/pow.rb'
 @path.directories.each do |artist| 
   artist.directories.each do |album|
     album.files.each do |file|
-      if file.extention =~ /(jpg|JPG|jpeg|JPEG)/
+      if file.extension =~ /(jpg|JPG|jpeg|JPEG)/
         puts "#{artist.name} / #{album.name} / #{file.name}"
       end
     end

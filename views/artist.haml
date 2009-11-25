@@ -19,13 +19,13 @@
       %span.separator 
         >
       %h2
-        %a{:href => "/play/#{params[:artist]}"}
-          =params[:artist]
+        %a{:href => "/play/#{CGI.escape(@artist)}"}
+          =@artist
     #covers
       - @albums.each do |album, art|
         - if art != "missing"
           #cover
-            %a{:href => "/play/#{params[:artist]}/#{album}"}
+            %a{:href => "/play/#{CGI.escape(@artist)}/#{album}"}
               %img{:src => "#{art}", :width => '300px', :height => '300px', :style => "z-index:100"}
               %span{:style => "z-index:200"}
                 %center
@@ -33,7 +33,7 @@
       - @albums.each do |album, art|
         - if art == "missing"
           #nocovers
-            %a{:href => "/play/#{params[:artist]}/#{album}"}
+            %a{:href => "/play/#{CGI.escape(@artist)}/#{album}"}
               %h3
                 %center
                   =album

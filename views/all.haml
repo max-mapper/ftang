@@ -18,14 +18,14 @@
           Ftang! Player
         > All Covers
     #covers
-      - @artists.each do |artist, albums|
-        - unless albums.empty?
+      - @artists.each do |artist|
+        - unless artist["albums"].empty?
           %h2
-            =artist
-          - albums.each do |album|
+            = artist["name"]
+          - artist["albums"].each do |album|
             #cover
               %a{:href => "/play/#{artist}/#{album}"}
-                %img{:src => "/music/#{artist}/#{album}/folder.jpeg", :width => '300px', :height => '300px', :style => "z-index:100"}
+                %img{:src => @covers[album], :width => '300px', :height => '300px', :style => "z-index:100"}
                 %span{:style => "z-index:200"}
                   %br
                   %center

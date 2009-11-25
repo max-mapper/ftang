@@ -7,10 +7,22 @@
 #   include Rack::Utils
 #   alias_method :escaped, :escape_html
 # end
+def music_dir;"music";end
+def basedir;"public/#{music_dir}";end
+
+def get_cover(artist, album)
+  path = Pow("#{basedir}/#{artist}/#{album}")
+  path.files.each do |file|
+    if file.extention =~ /jpe?g|png/i
+      return "/#{music_dir}/#{artist}/#{album}/#{file.name}"
+    end
+  end
+  nil
+end
 
 get '/' do
   @artists = []
-  path = Pow("/home/maxo/DOESTHISMONKEYLOOKFUNNYTOYOU.COM/taco")
+  path = Pow(basedir)
   path.directories.each do |artist| 
     @artists << artist.name
   end
@@ -18,13 +30,18 @@ get '/' do
   haml :index
 end
 
-get '/play/:artist' do
+get %r{/play/([^/]+)(/)?} do
+  pass unless params[:captures][1].nil?
+  p "passing..."
+  p "artist: #{params[:captures][0]}"
+  p "album: #{params[:captures][1]}"
+  @artist = params[:captures][0]
   @albums = {}
-  path = Pow("public/taco/#{params[:artist]}/")
+  path = Pow("#{basedir}/#{@artist}/")
   path.directories.each do |album|
-    @art = "/taco/#{params[:artist]}/#{album.name}/folder.jpeg"
-    if album['folder.jpeg'].exists?
-      @albums.merge!({"#{album.name}" => @art})
+    @cover = get_cover(@artist, album.name)
+    if @cover
+      @albums.merge!({"#{album.name}" => @cover})
     else
       @albums.merge!({"#{album.name}" => "missing"})
     end
@@ -33,17 +50,22 @@ get '/play/:artist' do
   haml :artist
 end
 
-get '/play/:artist/:album' do
+get %r{/play/([^/]+)/([^/]+)?} do
+  p "passed!"
+  @artist = params[:captures][0]
+  @album = params[:captures][1]
+  p "artist: #{@artist}"
+  p "album: #{@album}"
   @songs = {}
-  path = Pow("public/taco/#{params[:artist]}/#{params[:album]}/")
-  @cover = "/taco/#{params[:artist]}/#{params[:album]}/#{path['folder.jpeg'].name}" unless path['folder.jpeg'].nil?
+  path = Pow("#{basedir}/#{@artist}/#{@album}/")
+  @cover = get_cover(@artist, @album)
   path.files.each do |song|
-    @songs.merge!({"#{song.name}" => "/taco/#{params[:artist]}/#{params[:album]}/#{song.name}"})
+    @songs.merge!({"#{song.name}" => "/#{music_dir}/#{@artist}/#{@album}/#{song.name}"})
   end
   @songs = @songs.sort{|a,b| a[1]<=>b[1]}
   @playlist = "["
   @songs.each do |title, url|
-    @playlist += "{name:\"#{title}\",filename:\"#{url}\"},\n" unless title =~ /folder.jpeg|.DS_Store/
+    @playlist += "{name:\"#{CGI.unescape(title)}\",mp3:\"#{url}\"},\n" unless title =~ /.jpe?g|.png|.DS_Store/i
   end
   @playlist.chop!.chop!
   @playlist += "];"
@@ -51,18 +73,20 @@ get '/play/:artist/:album' do
 end
 
 get '/allcovers' do
-  @artists = {}
-  path = Pow("public/taco/")
+  @artists = []
+  @covers = {}
+  path = Pow("#{basedir}")
   path.directories.each do |artist|
     albums = []
     artist.directories.each do |album|
-      if album['folder.jpeg'].exists?
+      cover = get_cover(artist.name, album.name)
+      if cover
         albums << album.name
+        @covers.merge!({album.name => cover})
       end
     end
-    @artists.merge!({"#{artist.name}" => albums})
+    @artists << {"name" => artist.name, "albums" => albums} unless albums.empty?
   end
-  @artists = @artists.sort
   haml :all
 end
 
