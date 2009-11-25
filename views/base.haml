@@ -15,24 +15,30 @@
   %body
     #header
       %h2
-        %a{:href => '/'}
+        %a{:href => '/artists'}
           FTANG!
     #content
-      = @content
 
 :javascript
   $( function() {
-      $("li a").click( function(e) {
-          e.preventDefault();
-          console.log(this);
-          $.get( $(this).attr('href'), function(data) {
-                $('#tiles').html( data );
-          });
-      });                                         
-  
+    $.get( '/artists', function(data) {
+      $('#content').html( data );
       $('ul').listnav({showCounts: false});
-      try {
-      _uacct = "UA-9156272-1";
-      urchinTracker();
-      } catch(err) {}
+      setup_routes();
+    });
+      
+    var setup_routes = function() {
+      $("a").click( function(e) {
+        e.preventDefault();
+        console.log(this);
+        $.get( $(this).attr('href'), function(data) {
+          $('#content').html( data );
+        });
+      }); 
+    };                                        
+  
+    try {
+    _uacct = "UA-9156272-1";
+    urchinTracker();
+    } catch(err) {}
   });

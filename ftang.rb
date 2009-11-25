@@ -1,13 +1,3 @@
-# require 'rubygems'
-# require 'sinatra'
-# require 'pow'
-# require 'haml'
-
-# helpers do
-#   include Rack::Utils
-#   alias_method :escaped, :escape_html
-# end
-
 def music_dir;"music";end
 def basedir;"public/#{music_dir}";end
 
@@ -32,14 +22,17 @@ def get_cover(artist, album)
 end
 
 get '/' do
+  haml :base
+end
+
+get '/artists' do
   @artists = []
   path = Pow(basedir)
   path.directories.each do |artist| 
     @artists << artist.name
   end
   @artists.sort!
-  @content = partial :artists, :locals => {:artists => @artists}
-  haml :base
+  partial :artists, :locals => {:artists => @artists}
 end
 
 get %r{/play/([^/]+)(/)?} do
