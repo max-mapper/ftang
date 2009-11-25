@@ -17,17 +17,22 @@
       %h2
         %a{:href => '/'}
           FTANG!
-    #tiles-nav
-    #tiles
-      %ul{:id => "tiles", :class => "tiles"}
-        - @artists.each do |artist|
-          %li.tiles
-            %a{:href => "/play/#{CGI.escape(artist)}", :class => "tiles"}
-              ="#{artist}"
+    #content
+      = @content
 
 :javascript
-  $('ul').listnav({showCounts: false});
-  try {
-  _uacct = "UA-9156272-1";
-  urchinTracker();
-  } catch(err) {}
+  $( function() {
+      $("li a").click( function(e) {
+          e.preventDefault();
+          console.log(this);
+          $.get( $(this).attr('href'), function(data) {
+                $('#tiles').html( data );
+          });
+      });                                         
+  
+      $('ul').listnav({showCounts: false});
+      try {
+      _uacct = "UA-9156272-1";
+      urchinTracker();
+      } catch(err) {}
+  });

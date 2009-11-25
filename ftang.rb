@@ -2,13 +2,24 @@
 # require 'sinatra'
 # require 'pow'
 # require 'haml'
-# 
+
 # helpers do
 #   include Rack::Utils
 #   alias_method :escaped, :escape_html
 # end
+
 def music_dir;"music";end
 def basedir;"public/#{music_dir}";end
+
+helpers do
+  def partial(page, options={})
+    haml page, options.merge!(:layout => false)
+  end
+end
+
+configure do
+  set :views, "#{File.dirname(__FILE__)}/views"
+end
 
 def get_cover(artist, album)
   path = Pow("#{basedir}/#{artist}/#{album}")
@@ -27,7 +38,8 @@ get '/' do
     @artists << artist.name
   end
   @artists.sort!
-  haml :index
+  @content = partial :artists, :locals => {:artists => @artists}
+  haml :base
 end
 
 get %r{/play/([^/]+)(/)?} do
@@ -47,7 +59,7 @@ get %r{/play/([^/]+)(/)?} do
     end
   end
   @albums = @albums.sort{|a,b| a[1]<=>b[1]}
-  haml :artist
+  partial :albums, :locals => {:artist => @artist, :albums => @albums, :cover => @cover}
 end
 
 get %r{/play/([^/]+)/([^/]+)?} do
