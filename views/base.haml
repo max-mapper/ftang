@@ -8,7 +8,7 @@
         }
     %title== FTANG!
     %link{:rel => "stylesheet", :type => "text/css", :href => "style.css"}
-    %script{:type => "text/javascript", :src => "http://jqueryjs.googlecode.com/files/jquery-1.3.js"}
+    %script{:type => "text/javascript", :src => "jquery-1.3.2.min.js"}
     %script{:type => "text/javascript", :src => "jqueryhoverIntent.js" }
     %script{:type => "text/javascript", :src => "jquery.listnav-2.0.js"}
     %script{:type => "text/javascript", :src => "http://www.google-analytics.com/urchin.js"}
@@ -16,6 +16,10 @@
     #header
       %h1.home_nav
         FTANG!
+      #header_artist
+        %span
+          >
+        %h1
     #content
     
 :javascript
@@ -30,10 +34,12 @@
       
     var setup_routes = function() {
       $("a").click( function(e) {
+        var artist = $(this).text();
         e.preventDefault();
         $.get( $(this).attr('href'), function(data) {
-          $('#content').html( data );
-          $('#header').append("<div id='header_artist'><span>></span><h1>" + e.originalTarget.innerHTML + "</h1></div>")
+          $('#content').html(data);
+          $('#header_artist').show();
+          $('#header_artist h1').text(artist);
         });
       }); 
     };          
@@ -42,7 +48,8 @@
     
     $(".home_nav").click( function() {
       load_artists();
-      $('#header_artist').remove();
+      $('#header_artist h1').text("");
+      $('#header_artist').hide();
     });
     
     try {
