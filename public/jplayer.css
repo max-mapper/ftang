@@ -1,287 +1,218 @@
-@import "/blueprint/src/reset.css";
-@import "/blueprint/src/typography.css";
-body {
-  background-color:#eee;
-}
-
-h1 {
-
-}
-
 h1, h2 {
-  padding-left:5px;
-  padding-top:2px;
-}
+  padding-left: 5px;
+  padding-top: 2px; }
 
 h3 {
-  line-height:20px;
+  line-height: 20px;
   padding: 0px;
-  margin:0px;
-  text-decoration: none;
-}
+  margin: 0px;
+  text-decoration: none; }
 
 h4 {
-  color:#000;
+  color: #000;
   padding-left: 5px;
-  padding-top: 5px;
-}
+  padding-top: 5px; }
 
 #album_cover {
-  width:25%;
+  width: 25%;
   padding: 120px 0px 0px 0px;
-  float:left;
-}
+  float: left; }
 
 #album_cover_image {
-  width:100%;
-  float:right;
-}
-
-
-a {
-  text-decoration: none;
-  /*color:#59d8e5;*/
-  color:#d5fbff;
-}
+  width: 100%;
+  float: right; }
 
 h1 a, h2 a {
-  color:#e2fae4;
-}
+  color: #e2fae4; }
 
 #header {
-  width:100%;
-  height:46px;
-  position:fixed;
+  width: 100%;
+  height: 46px;
+  position: fixed;
   background: #00c0f3;
-  z-index:20;
-}
-
-#header img {
-  position:absolute;
-  top:0px;
-  right:0px;
-}
+  z-index: 20; }
+  #header img {
+    position: absolute;
+    top: 0px;
+    right: 0px; }
 
 #player_container {
   margin: 0 auto;
   display: block;
   position: fixed;
-  top:40px;
-  background-color:#eee;
-  width:100%;
-  height:80px;
-  border:1px solid #009be3;
-  border-top:none;
-  z-index:20;
-}
+  top: 40px;
+  background-color: #eee;
+  width: 100%;
+  height: 80px;
+  border: 1px solid #009be3;
+  border-top: none;
+  z-index: 20; }
+  #player_container ul#player_controls {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    #player_container ul#player_controls li {
+      overflow: hidden;
+      text-indent: -9999px; }
 
-#player_container  ul#player_controls {
-  list-style-type:none;
-  padding:0;
-  margin: 0;
-}
-
-#player_container  ul#player_controls li {
-  overflow:hidden;
-  text-indent:-9999px;
-}
-
-#player_play,
-#player_pause {
+#player_play, #player_pause {
   display: block;
   position: absolute;
-  left:48px;
-  top:20px;
-  width:40px;
-  height:40px;
-  cursor: pointer;
-}
+  left: 48px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer; }
 
 #player_play {
-  background: url("images/spirites.jpg") 0 0 no-repeat;
-}
-
-#player_play.jqjp_hover {
-  background: url("images/spirites.jpg") -41px 0 no-repeat;
-}
+  background: url("images/spirites.jpg") 0 0 no-repeat; }
+  #player_play.jqjp_hover {
+    background: url("images/spirites.jpg") -41px 0 no-repeat; }
 
 #player_pause {
-  background: url("images/spirites.jpg") 0 -42px no-repeat;
-}
-
-#player_pause.jqjp_hover {
-  background: url("images/spirites.jpg") -41px -42px no-repeat;
-}
+  background: url("images/spirites.jpg") 0 -42px no-repeat; }
+  #player_pause.jqjp_hover {
+    background: url("images/spirites.jpg") -41px -42px no-repeat; }
 
 #ctrl_prev {
   position: absolute;
-  left:20px;
-  top:26px;
+  left: 20px;
+  top: 26px;
   background: url("images/spirites.jpg") 0 -112px no-repeat;
-  width:28px;
-  height:28px;
-  cursor: pointer;
-}
-
-#ctrl_prev:hover {
-  background: url("images/spirites.jpg") -29px -112px no-repeat;
-}
-
-#ctrl_prev.disabled {
-  background: url("images/spirites.jpg") -58px -112px no-repeat;
-  cursor:default;
-}
+  width: 28px;
+  height: 28px;
+  cursor: pointer; }
+  #ctrl_prev:hover {
+    background: url("images/spirites.jpg") -29px -112px no-repeat; }
+  #ctrl_prev.disabled {
+    background: url("images/spirites.jpg") -58px -112px no-repeat;
+    cursor: default; }
 
 #ctrl_next {
   position: absolute;
-  left:88px;
-  top:26px;
+  left: 88px;
+  top: 26px;
   background: url("images/spirites.jpg") 0 -141px no-repeat;
-  width:28px;
-  height:28px;
-  cursor: pointer;
-}
-
-#ctrl_next:hover {
-  background: url("images/spirites.jpg") -29px -141px no-repeat;
-}
-
-#ctrl_next.disabled {
-  background: url("images/spirites.jpg") -58px -141px no-repeat;
-  cursor:default;
-}
+  width: 28px;
+  height: 28px;
+  cursor: pointer; }
+  #ctrl_next:hover {
+    background: url("images/spirites.jpg") -29px -141px no-repeat; }
+  #ctrl_next.disabled {
+    background: url("images/spirites.jpg") -58px -141px no-repeat;
+    cursor: default; }
 
 #player_stop {
   position: absolute;
-  left:126px;
-  top:26px;
+  left: 126px;
+  top: 26px;
   background: url("images/spirites.jpg") 0 -83px no-repeat;
-  width:28px;
-  height:28px;
-  cursor: pointer;
-}
-
-#player_stop.jqjp_hover {
-  background: url("images/spirites.jpg") -29px -83px no-repeat;
-}
+  width: 28px;
+  height: 28px;
+  cursor: pointer; }
+  #player_stop.jqjp_hover {
+    background: url("images/spirites.jpg") -29px -83px no-repeat; }
 
 #player_progress {
   position: absolute;
-  left:174px;
-  top:32px;
+  left: 174px;
+  top: 32px;
   background-color: #eee;
-  width:362px;
-  height:15px;
-}
+  width: 362px;
+  height: 15px; }
 
 #player_progress_load_bar {
   background: url("images/bar_load.gif")  top left repeat-x;
-  width:0px;
-  height:15px;
-  cursor: pointer;
-}
-
-#player_progress_load_bar.jqjp_buffer {
-  background: url("images/bar_buffer.gif")  top left repeat-x;
-}
+  width: 0px;
+  height: 15px;
+  cursor: pointer; }
+  #player_progress_load_bar.jqjp_buffer {
+    background: url("images/bar_buffer.gif")  top left repeat-x; }
 
 #player_progress_play_bar {
-  background: url("images/bar_play.gif") top left repeat-x ;
-  width:0px;
-  height:15px;
-}
+  background: url("images/bar_play.gif") top left repeat-x;
+  width: 0px;
+  height: 15px; }
 
 #player_volume_min {
   position: absolute;
-  left:556px;
-  top:32px;
+  left: 556px;
+  top: 32px;
   background: url("images/spirites.jpg") 0 -170px no-repeat;
-  width:18px;
-  height:15px;
-  cursor: pointer;
-}
+  width: 18px;
+  height: 15px;
+  cursor: pointer; }
 
 #player_volume_max {
   position: absolute;
-  left:680px;
-  top:32px;
+  left: 680px;
+  top: 32px;
   background: url("images/spirites.jpg") 0 -186px no-repeat;
-  width:18px;
-  height:15px;
-  cursor: pointer;
-}
+  width: 18px;
+  height: 15px;
+  cursor: pointer; }
 
 #player_volume_min.jqjp_hover {
-  background: url("images/spirites.jpg") -19px -170px no-repeat;
-}
+  background: url("images/spirites.jpg") -19px -170px no-repeat; }
 
 #player_volume_max.jqjp_hover {
-  background: url("images/spirites.jpg") -19px -186px no-repeat;
-}
+  background: url("images/spirites.jpg") -19px -186px no-repeat; }
 
 #player_volume_bar {
   position: absolute;
-  left:575px;
-  top:37px;
+  left: 575px;
+  top: 37px;
   background: url("images/volume_bar.gif") repeat-x top left;
-  width:100px;
-  height:5px;
-  cursor: pointer;
-}
+  width: 100px;
+  height: 5px;
+  cursor: pointer; }
 
 #player_volume_bar_value {
   background: url("images/volume_bar_value.gif") repeat-x top left;
-  width:0px;
-  height:5px;
-}
+  width: 0px;
+  height: 5px; }
 
-#play_time,
+#play_time {
+  position: absolute;
+  left: 174px;
+  top: 49px;
+  width: 362px;
+  font-size: .8em;
+  font-style: oblique; }
+
 #total_time {
   position: absolute;
-  left:174px;
-  top:49px;
-  width:362px;
-  font-size:.8em;
-  font-style:oblique;
-}
-
-#total_time {
-  text-align: right;
-}
+  left: 174px;
+  top: 49px;
+  width: 362px;
+  font-size: .8em;
+  font-style: oblique;
+  text-align: right; }
 
 #playlist_list {
-  width:75%;
+  width: 75%;
   display: block;
-  float:left;
+  float: left;
   padding: 120px 0px 0px 0px;
-  z-index: 1;
-}
-
-#playlist_list ul{
-  font-family: helvetica;
-  list-style-type:none;
-  padding:10px 20px 20px 20px;
-  margin:0 0 10px 0;
-  background-color:#ccc;
-  border:1px solid #009be3;
-  border-top:none;
-  font-size:1.6em;
-}
-
-#playlist_list li{
-  padding:4px 0 4px 20px;
-  border-bottom:1px solid #eee;
-  cursor: pointer;
-}
-
-#playlist_list li.playlist_current{
-  color:#0d88c1;
-  list-style-type:square;
-  list-style-position:inside;
-  padding-left:6px;
-  cursor: default;
-}
-
-#playlist_list li.playlist_hover {
-  color:#0d88c1;
-}
+  z-index: 1; }
+  #playlist_list ul {
+    font-family: helvetica;
+    list-style-type: none;
+    padding: 10px 20px 20px 20px;
+    margin: 0 0 10px 0;
+    background-color: #ccc;
+    border: 1px solid #009be3;
+    border-top: none;
+    font-size: 1.6em; }
+  #playlist_list li {
+    padding: 4px 0 4px 20px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer; }
+    #playlist_list li.playlist_current {
+      color: #0d88c1;
+      list-style-type: square;
+      list-style-position: inside;
+      padding-left: 6px;
+      cursor: default; }
+    #playlist_list li.playlist_hover {
+      color: #0d88c1; }

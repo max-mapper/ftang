@@ -24,7 +24,7 @@ li {
 
 .home_nav {
   float: left;
-  line-height: 45px; }
+  line-height: 40px; }
   .home_nav:hover {
     color: #fff; }
 
@@ -38,7 +38,7 @@ li {
     padding: 0px 6px;
     font-size: 40px; }
   #header_artist h1 {
-    line-height: 45px;
+    line-height: 40px;
     float: left; }
 
 .ln-letters {
@@ -162,8 +162,12 @@ a:hover {
   margin: 0px 20px 20px 15px;
   border: 5px solid #ccc; }
   #nocovers h3 {
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 20%;
-    line-height: 1.5em; }
+    line-height: 1.5em;
+    width: 250px;
+    text-align: center; }
 
 br {
   clear: left; }

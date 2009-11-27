@@ -8,10 +8,13 @@
         }
     %title== FTANG!
     %link{:rel => "stylesheet", :type => "text/css", :href => "style.css"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "jplayer.css"}
     %script{:type => "text/javascript", :src => "jquery-1.3.2.min.js"}
     %script{:type => "text/javascript", :src => "jqueryhoverIntent.js" }
     %script{:type => "text/javascript", :src => "jquery.listnav-2.0.js"}
     %script{:type => "text/javascript", :src => "http://www.google-analytics.com/urchin.js"}
+    %script{:type => "text/javascript", :src => "/jquery.jplayer.js"}
+
   %body
     #header
       %h1.home_nav
@@ -28,29 +31,25 @@
       $.get( '/artists', function(data) {
         $('#content').html( data );
         $('ul').listnav({showCounts: false});
-        setup_routes();
+        $("a").click( function(e) {
+          var artist = $(this).text();
+          e.preventDefault();
+          $.get( $(this).attr('href'), function(data) {
+            $('#content').html(data);
+            $('#header_artist').show();
+            $('#header_artist h1').text(artist);
+          });
+        });
       });
     };
       
-    var setup_routes = function() {
-      $("a").click( function(e) {
-        var artist = $(this).text();
-        e.preventDefault();
-        $.get( $(this).attr('href'), function(data) {
-          $('#content').html(data);
-          $('#header_artist').show();
-          $('#header_artist h1').text(artist);
-        });
-      }); 
-    };          
-    
-    load_artists();
-    
     $(".home_nav").click( function() {
       load_artists();
       $('#header_artist h1').text("");
       $('#header_artist').hide();
     });
+  
+    load_artists();
     
     try {
     _uacct = "UA-9156272-1";

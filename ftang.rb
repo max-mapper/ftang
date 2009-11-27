@@ -37,9 +37,6 @@ end
 
 get %r{/play/([^/]+)(/)?} do
   pass unless params[:captures][1].nil?
-  p "passing..."
-  p "artist: #{params[:captures][0]}"
-  p "album: #{params[:captures][1]}"
   @artist = params[:captures][0]
   @albums = {}
   path = Pow("#{basedir}/#{@artist}/")
@@ -56,11 +53,8 @@ get %r{/play/([^/]+)(/)?} do
 end
 
 get %r{/play/([^/]+)/([^/]+)?} do
-  p "passed!"
   @artist = params[:captures][0]
   @album = params[:captures][1]
-  p "artist: #{@artist}"
-  p "album: #{@album}"
   @songs = {}
   path = Pow("#{basedir}/#{@artist}/#{@album}/")
   @cover = get_cover(@artist, @album)
@@ -74,7 +68,7 @@ get %r{/play/([^/]+)/([^/]+)?} do
   end
   @playlist.chop!.chop!
   @playlist += "];"
-  haml :album
+  partial :songs, :locals => {:playlist => @playlist, :artist => @artist, :album => @album, :cover => @cover}
 end
 
 get '/allcovers' do
