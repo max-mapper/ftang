@@ -23,6 +23,10 @@
         %span
           >
         %h1
+      #header_album
+        %span
+          >
+        %h1
     #content
     
 :javascript
@@ -31,13 +35,22 @@
       $.get( '/artists', function(data) {
         $('#content').html( data );
         $('ul').listnav({showCounts: false});
-        $("a").click( function(e) {
+        $("a").click(function(e) {
           var artist = $(this).text();
           e.preventDefault();
           $.get( $(this).attr('href'), function(data) {
             $('#content').html(data);
             $('#header_artist').show();
             $('#header_artist h1').text(artist);
+            $("a").click(function(e) {
+              var album = $(this).text();
+              e.preventDefault();
+              $.get( $(this).attr('href'), function(data) {
+                $('#content').html(data);
+                $('#header_album').show();
+                $('#header_album h1').text(album);
+              });
+            });
           });
         });
       });
@@ -47,6 +60,8 @@
       load_artists();
       $('#header_artist h1').text("");
       $('#header_artist').hide();
+      $('#header_album h1').text("");
+      $('#header_album').hide();
     });
   
     load_artists();

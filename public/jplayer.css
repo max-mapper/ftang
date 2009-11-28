@@ -37,7 +37,7 @@ h1 a, h2 a {
     right: 0px; }
 
 #player_container {
-  margin: 0 auto;
+  margin: 6px auto;
   display: block;
   position: fixed;
   top: 40px;

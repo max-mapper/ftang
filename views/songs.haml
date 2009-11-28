@@ -34,18 +34,9 @@
     %img{:src => cover, :id => "album_cover_image"}
 
 :javascript
-
-  $(document).ready(function(){
-
-    try {
-    _uacct = "UA-9156272-1";
-    urchinTracker();
-    } catch(err) {}
-
+  $( function() {
     var playItem = 0;
-
-    var myPlayList = 
-    #{playlist}
+    var myPlayList = #{playlist}
 
     $("#jquery_jplayer").jPlayer({
       ready: function() {
@@ -140,4 +131,4 @@
       var index = (playItem-1 >= 0) ? playItem-1 : myPlayList.length-1;
       playListChange( index );
     }
-    });
+  });
