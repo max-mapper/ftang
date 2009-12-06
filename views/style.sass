@@ -1,6 +1,14 @@
 @import "/blueprint/src/reset.css"
 @import "/blueprint/src/typography.css"
 
+@font-face 
+  font-family: "Museo 700"
+  src: url('Museo700-Regular.otf') format("opentype")
+
+@font-face 
+  font-family: "Museo Sans 500"
+  src: url('MuseoSans_500.otf') format("opentype")
+
 body
   background-color: #FFF
 
@@ -9,6 +17,9 @@ html, body
   padding: 0
   border: 0
   height: 100%
+
+#content
+  padding-top: 50px
 
 .tiles
   li
@@ -21,13 +32,23 @@ html, body
     line-height: 1.2em
     margin: 1px
     padding-left: 6px
-
     &:hover
       color: #f1e900
 
 .home_nav
-  float: left
+  -x-system-font: none
+  color: #eeeeee
+  font-family: "Museo 700", Helvetica,Arial,sans-serif
+  font-size: 50px
+  font-size-adjust: none
+  font-stretch: normal
+  font-style: normal
+  font-variant: normal
+  font-weight: normal
   line-height: 40px
+  text-shadow: 0 7px 0 #3c3809
+  margin: 0px
+  float: left
   &:hover
     color: #fff
     
@@ -40,9 +61,13 @@ html, body
     padding: 0px 6px
     font-size: 40px
   h1
-    line-height: 40px
+    font-family: "Museo Sans 500", Helvetica
+    line-height: 45px
     float: left
-    
+
+#jquery_jplayer
+  float: right
+
 .ln-letters
   overflow: hidden
   width: 100%
@@ -119,11 +144,10 @@ a
 
 #header
   width: 100%
-  height: 46px
+  height: 50px
   position: fixed
   background: #00c0f3
   z-index: 20
-
   img
     position: absolute
     top: 0px
@@ -152,7 +176,6 @@ a:hover
   color: #00c0f3
 
 #tiles-nav
-  padding-top: 40px
   display: block
   margin-left: auto
   margin-right: auto

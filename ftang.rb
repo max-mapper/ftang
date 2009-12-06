@@ -1,5 +1,6 @@
+
 def music_dir;"music";end
-def basedir;"public/#{music_dir}";end
+def base_dir;"public/#{music_dir}";end
 
 helpers do
   def partial(page, options={})
@@ -12,7 +13,7 @@ configure do
 end
 
 def get_cover(artist, album)
-  path = Pow("#{basedir}/#{artist}/#{album}")
+  path = Pow("#{base_dir}/#{artist}/#{album}")
   path.files.each do |file|
     if file.extention =~ /jpe?g|png/i
       return "/#{music_dir}/#{artist}/#{album}/#{file.name}"
@@ -27,7 +28,7 @@ end
 
 get '/artists' do
   @artists = []
-  path = Pow(basedir)
+  path = Pow(base_dir)
   path.directories.each do |artist| 
     @artists << artist.name
   end
@@ -39,7 +40,7 @@ get %r{/play/([^/]+)(/)?} do
   pass unless params[:captures][1].nil?
   @artist = params[:captures][0]
   @albums = {}
-  path = Pow("#{basedir}/#{@artist}/")
+  path = Pow("#{base_dir}/#{@artist}/")
   path.directories.each do |album|
     @cover = get_cover(@artist, album.name)
     if @cover
@@ -55,26 +56,30 @@ end
 get %r{/play/([^/]+)/([^/]+)?} do
   @artist = params[:captures][0]
   @album = params[:captures][1]
-  @songs = {}
-  path = Pow("#{basedir}/#{@artist}/#{@album}/")
+  path = Pow("#{base_dir}/#{@artist}/#{@album}/")
   @cover = get_cover(@artist, @album)
+  partial :songs, :locals => {:artist => @artist, :album => @album, :cover => @cover}
+end
+
+get %r{/([^/]+)/([^/]+).json} do
+  content_type :json
+  @artist = params[:captures][0]
+  @album = params[:captures][1]
+  @songs = []
+  path = Pow("#{base_dir}/#{@artist}/#{@album}/")
   path.files.each do |song|
-    @songs.merge!({"#{song.name}" => "/#{music_dir}/#{@artist}/#{@album}/#{song.name}"})
+    unless song.name =~ /.jpe?g|.png|.gif|.DS_Store/i
+      @songs << {"name" => "#{CGI.unescape(song.name)}", "mp3" => "/#{music_dir}/#{@artist}/#{@album}/#{song.name}"}
+    end
   end
-  @songs = @songs.sort{|a,b| a[1]<=>b[1]}
-  @playlist = "["
-  @songs.each do |title, url|
-    @playlist += "{name:\"#{CGI.unescape(title)}\",mp3:\"#{url}\"},\n" unless title =~ /.jpe?g|.png|.DS_Store/i
-  end
-  @playlist.chop!.chop!
-  @playlist += "];"
-  partial :songs, :locals => {:playlist => @playlist, :artist => @artist, :album => @album, :cover => @cover}
+  @songs = @songs.sort{|a,b| a["name"]<=>b["name"]}
+  @songs.to_json
 end
 
 get '/allcovers' do
   @artists = []
   @covers = {}
-  path = Pow("#{basedir}")
+  path = Pow("#{base_dir}")
   path.directories.each do |artist|
     albums = []
     artist.directories.each do |album|

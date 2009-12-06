@@ -13,7 +13,8 @@
     %script{:type => "text/javascript", :src => "jqueryhoverIntent.js" }
     %script{:type => "text/javascript", :src => "jquery.listnav-2.0.js"}
     %script{:type => "text/javascript", :src => "http://www.google-analytics.com/urchin.js"}
-    %script{:type => "text/javascript", :src => "/jquery.jplayer.js"}
+    %script{:type => "text/javascript", :src => "jquery.jplayer.js"}
+    %script{:type => "text/javascript", :src => "ftang.js"}
 
   %body
     #header
@@ -27,47 +28,28 @@
         %span
           >
         %h1
+      #jquery_jplayer
+      #player_container
+        %ul#player_controls
+          %li#player_play
+            play
+          %li#player_pause
+            pause
+          %li#player_stop
+            stop
+          %li#player_volume_min
+            min volume
+          %li#player_volume_max
+            max volume
+          %li#ctrl_prev
+            previous
+          %li#ctrl_next
+            next
+        #play_time
+        #total_time
+        #player_progress
+          #player_progress_load_bar
+            #player_progress_play_bar
+        #player_volume_bar
+          #player_volume_bar_value
     #content
-    
-:javascript
-  $( function() {
-    var load_artists = function() {
-      $.get( '/artists', function(data) {
-        $('#content').html( data );
-        $('ul').listnav({showCounts: false});
-        $("a").click(function(e) {
-          var artist = $(this).text();
-          e.preventDefault();
-          $.get( $(this).attr('href'), function(data) {
-            $('#content').html(data);
-            $('#header_artist').show();
-            $('#header_artist h1').text(artist);
-            $("a").click(function(e) {
-              var album = $(this).text();
-              e.preventDefault();
-              $.get( $(this).attr('href'), function(data) {
-                $('#content').html(data);
-                $('#header_album').show();
-                $('#header_album h1').text(album);
-              });
-            });
-          });
-        });
-      });
-    };
-      
-    $(".home_nav").click( function() {
-      load_artists();
-      $('#header_artist h1').text("");
-      $('#header_artist').hide();
-      $('#header_album h1').text("");
-      $('#header_album').hide();
-    });
-  
-    load_artists();
-    
-    try {
-    _uacct = "UA-9156272-1";
-    urchinTracker();
-    } catch(err) {}
-  });

@@ -10,6 +10,7 @@ require 'haml'
 require 'ftang.rb'
 require 'cgi'
 require 'sass/plugin/rack'
+require 'json'
 use Sass::Plugin::Rack
 Sass::Plugin.options[:css_location] = "./public" 
 Sass::Plugin.options[:template_location] = "./views"
