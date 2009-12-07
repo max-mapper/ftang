@@ -9,6 +9,7 @@ $( function() {
     
     $("#jquery_jplayer").jPlayer({
       ready: function() {
+        console.log('jplayer sucks at loading its swf so this is in here to create a slight delay');
         displayPlayList();
         playListInit(true); // Parameter is a boolean for autoplay.
       },

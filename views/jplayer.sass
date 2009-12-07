@@ -1,50 +1,29 @@
-h1, h2
-  padding-left: 5px
-  padding-top: 2px
-
-h3
-  line-height: 20px
-  padding: 0px
-  margin: 0px
-  text-decoration: none
-
-h4
-  color: #000
-  padding-left: 5px
-  padding-top: 5px
-
-#album_cover
-  width: 25%
-  padding: 120px 0px 0px 0px
-  float: left
-
-#album_cover_image
-  width: 100%
-  float: right
-
-h1 a, h2 a
-  color: #e2fae4
-
 #player_container
-  margin-top: 5px
+  position: absolute
+  width: 418px
   height: 50px
-  width: 750px
-  float: right
-  ul#player_controls
-    list-style-type: none
-    padding: 0
-    margin: 0
+  top: -15px
+  right: 50px
 
-    li
-      overflow: hidden
-      text-indent: -9999px
+#player_container ul#player_controls
+  list-style-type: none
+  padding: 0
+  margin: 0
+
+  li
+    overflow: hidden
+    text-indent: -9999px
+
 
 #player_play, #player_pause
   display: block
-  float: left
+  position: absolute
+  left: 48px
+  top: 20px
   width: 40px
   height: 40px
   cursor: pointer
+
 
 #player_play
   background: url("images/spirites.jpg") 0 0 no-repeat
@@ -52,19 +31,23 @@ h1 a, h2 a
   &.jqjp_hover
     background: url("images/spirites.jpg") -41px 0 no-repeat
 
+
 #player_pause
   background: url("images/spirites.jpg") 0 -42px no-repeat
 
   &.jqjp_hover
     background: url("images/spirites.jpg") -41px -42px no-repeat
 
+
 #ctrl_prev
-  float: left
+  position: absolute
+  left: 20px
+  top: 26px
   background: url("images/spirites.jpg") 0 -112px no-repeat
   width: 28px
   height: 28px
   cursor: pointer
-  margin-top: 6px
+
   &:hover
     background: url("images/spirites.jpg") -29px -112px no-repeat
 
@@ -72,13 +55,16 @@ h1 a, h2 a
     background: url("images/spirites.jpg") -58px -112px no-repeat
     cursor: default
 
+
 #ctrl_next
-  float: left
+  position: absolute
+  left: 88px
+  top: 26px
   background: url("images/spirites.jpg") 0 -141px no-repeat
   width: 28px
   height: 28px
   cursor: pointer
-  margin-top: 6px
+
   &:hover
     background: url("images/spirites.jpg") -29px -141px no-repeat
 
@@ -86,22 +72,28 @@ h1 a, h2 a
     background: url("images/spirites.jpg") -58px -141px no-repeat
     cursor: default
 
+
 #player_stop
-  float: left
+  position: absolute
+  left: 126px
+  top: 26px
   background: url("images/spirites.jpg") 0 -83px no-repeat
   width: 28px
   height: 28px
   cursor: pointer
-  margin-top: 6px
+
   &.jqjp_hover
     background: url("images/spirites.jpg") -29px -83px no-repeat
 
+
 #player_progress
-  float: left
+  position: absolute
+  left: 164px
+  top: 32px
   background-color: #eee
-  width: 362px
+  width: 122px
   height: 15px
-  margin-top: 12px
+
 
 #player_progress_load_bar
   background: url("images/bar_load.gif")  top left repeat-x
@@ -112,75 +104,91 @@ h1 a, h2 a
   &.jqjp_buffer
     background: url("images/bar_buffer.gif")  top left repeat-x
 
+
 #player_progress_play_bar
   background: url("images/bar_play.gif") top left repeat-x 
   width: 0px
   height: 15px
 
+
 #player_volume_min
-  float: left
+  position: absolute
+  left: 296px
+  top: 32px
   background: url("images/spirites.jpg") 0 -170px no-repeat
   width: 18px
   height: 15px
   cursor: pointer
-  margin-top: 12px
+
 
 #player_volume_max
-  float: left
+  position: absolute
+  left: 368px
+  top: 32px
   background: url("images/spirites.jpg") 0 -186px no-repeat
   width: 18px
   height: 15px
   cursor: pointer
-  margin-top: 12px
+
 
 #player_volume_min.jqjp_hover
   background: url("images/spirites.jpg") -19px -170px no-repeat
 
+
 #player_volume_max.jqjp_hover
   background: url("images/spirites.jpg") -19px -186px no-repeat
 
+
 #player_volume_bar
-  float: left
+  position: absolute
+  left: 314px
+  top: 37px
   background: url("images/volume_bar.gif") repeat-x top left
-  width: 100px
+  width: 46px
   height: 5px
   cursor: pointer
-  margin-top: 17px  
+
 
 #player_volume_bar_value
   background: url("images/volume_bar_value.gif") repeat-x top left
   width: 0px
   height: 5px
 
+
 #play_time
-  float: left
-  width: 362px
+  position: absolute
+  left: 164px
+  top: 49px
+  width: 122px
   font-size: .8em
   font-style: oblique
 
+
 #total_time
-  float: left
-  width: 362px
+  position: absolute
+  left: 164px
+  top: 49px
+  width: 122px
   font-size: .8em
   font-style: oblique
   text-align: right
 
+
 #playlist_list
-  width: 75%
   display: block
   float: left
-  padding: 120px 0px 0px 0px
+  padding: 50px 0px 0px 0px
   z-index: 1
-
+  
   ul
-    font-family: helvetica
     list-style-type: none
     padding: 10px 20px 20px 20px
     margin: 0 0 10px 0
     background-color: #ccc
     border: 1px solid #009be3
     border-top: none
-    font-size: 1.6em
+    width: 378px
+    font-size: .9em
 
   li
     padding: 4px 0 4px 20px

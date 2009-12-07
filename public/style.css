@@ -18,7 +18,9 @@ html, body {
   height: 100%; }
 
 #content {
-  padding-top: 50px; }
+  padding-top: 50px;
+  float: left;
+  width: 80%; }
 
 .tiles li {
   list-style: none;
