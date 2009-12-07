@@ -1,10 +1,8 @@
-#playlist_list
-  %ul
-  %p{:style => "padding-left:10px"}
-    %i
-      all music here is licensed and subject to the stipulations of the DMCA. do not download, modify, or distribute these files. questions?
-      %a{:href => "http://www.maxogden.com", :style => "color: #00c0f3"}
-        contact me
+%p{:style => "padding-left:10px"}
+  %i
+    all music here is licensed and subject to the stipulations of the DMCA. do not download, modify, or distribute these files. questions?
+    %a{:href => "http://www.maxogden.com", :style => "color: #00c0f3"}
+      contact me
 #album_cover
   - unless cover.nil?
     %img{:src => cover, :id => "album_cover_image"}
