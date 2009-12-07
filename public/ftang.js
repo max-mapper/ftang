@@ -102,21 +102,21 @@ $( function() {
     $.get( '/artists', function(data) {
       $('#content').html( data );
       $('ul').listnav({showCounts: false});
-      $("a").click(function(e) {
-        var artist = $(this).text();
+      $(".tiles a").click(function(e) {
+        var artist = $(this).text().trim(" ");
         e.preventDefault();
         $.get( $(this).attr('href'), function(data) {
           $('#content').html(data);
           $('#header_artist').show();
           $('#header_artist h1').text(artist);
           $("a").click(function(e) {
-            var album = $(this).text();
+            var album = $(this).text().trim(" ");
             e.preventDefault();
             $.get( $(this).attr('href'), function(data) {
               $('#content').html(data);
               $('#header_album').show();
               $('#header_album h1').text(album);
-              $.getJSON("http://localhost:8080/Dying+Fetus/Hi%20Mom.json",
+              $.getJSON("/" + artist + "/" + album + ".json",
               function(data) {
                 load_jplayer(data);
               });

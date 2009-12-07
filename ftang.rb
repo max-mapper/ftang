@@ -1,3 +1,4 @@
+use Rack::Session::Cookie
 
 def music_dir;"music";end
 def base_dir;"public/#{music_dir}";end
@@ -10,6 +11,7 @@ end
 
 configure do
   set :views, "#{File.dirname(__FILE__)}/views"
+  set :sessions, true
 end
 
 def get_cover(artist, album)
