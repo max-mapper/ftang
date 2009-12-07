@@ -1,4 +1,4 @@
-$( function() {
+$( function() {  
   $('#toggle_playlist').live('click', function(e) {
     $('#playlist').toggle();
   });
@@ -108,21 +108,23 @@ $( function() {
       $('#content').html( data );
       $('#tiles ul').listnav({showCounts: false});
       $(".tiles a").click(function(e) {
-        var artist = $(this).text().trim(" ");
         e.preventDefault();
+        var artist = $(this).text().trim(" ");
         $.get( $(this).attr('href'), function(data) {
           $('#content').html(data);
           $('#header_artist').show();
           $('#header_artist h1').text(artist);
           $("a").click(function(e) {
-            var album = $(this).text().trim(" ");
             e.preventDefault();
+            var album = $(this).text().trim(" ");
             $.get( $(this).attr('href'), function(data) {
               $('#content').html(data);
               $('#header_album').show();
               $('#header_album h1').text(album);
-              $.getJSON("/playlist/add/" + artist + "/" + album, function(data) {
-                load_jplayer(data);
+              $.get("/playlist/add/" + artist + "/" + album, function() {
+                $.getJSON('/playlist/load', function(data) {
+                  load_jplayer(data);
+                });
               });
             });
           });
@@ -138,7 +140,7 @@ $( function() {
     $('#header_album h1').text("");
     $('#header_album').hide();
   });
-
+  
   load_artists();
 
   try {

@@ -7,6 +7,10 @@ helpers do
   def partial(page, options={})
     haml page, options.merge!(:layout => false)
   end
+  
+  def reset_session
+    env['rack.session'] = {}
+  end
 end
 
 configure do
@@ -65,7 +69,6 @@ get %r{/play/([^/]+)/([^/]+)?} do
 end
 
 get %r{/playlist/add/([^/]+)/([^/]+)} do
-  content_type :json
   @artist = params[:captures][0]
   @album = params[:captures][1]
   @songs = []
@@ -76,8 +79,7 @@ get %r{/playlist/add/([^/]+)/([^/]+)} do
     end
   end
   @songs = @songs.sort{|a,b| a["name"]<=>b["name"]}
-  session[:playlist] << @songs.to_json
-  session[:playlist].to_json
+  @songs.each {|song| session[:playlist] << song}
 end
 
 get '/playlist/load' do
@@ -87,6 +89,10 @@ end
 
 get '/playlist/clear' do
   session[:playlist] = []
+end
+
+get '/session/clear' do
+  reset_session
 end
 
 get '/allcovers' do
