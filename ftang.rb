@@ -25,6 +25,7 @@ def get_cover(artist, album)
 end
 
 get '/' do
+  session[:playlist] ||= []
   haml :base
 end
 
@@ -63,7 +64,7 @@ get %r{/play/([^/]+)/([^/]+)?} do
   partial :songs, :locals => {:artist => @artist, :album => @album, :cover => @cover}
 end
 
-get %r{/([^/]+)/([^/]+).json} do
+get %r{/playlist/add/([^/]+)/([^/]+)} do
   content_type :json
   @artist = params[:captures][0]
   @album = params[:captures][1]
@@ -75,7 +76,17 @@ get %r{/([^/]+)/([^/]+).json} do
     end
   end
   @songs = @songs.sort{|a,b| a["name"]<=>b["name"]}
-  @songs.to_json
+  session[:playlist] << @songs.to_json
+  session[:playlist].to_json
+end
+
+get '/playlist/load' do
+  content_type :json
+  session[:playlist].to_json
+end
+
+get '/playlist/clear' do
+  session[:playlist] = []
 end
 
 get '/allcovers' do

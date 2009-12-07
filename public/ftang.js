@@ -121,8 +121,7 @@ $( function() {
               $('#content').html(data);
               $('#header_album').show();
               $('#header_album h1').text(album);
-              $.getJSON("/" + artist + "/" + album + ".json",
-              function(data) {
+              $.getJSON("/playlist/add/" + artist + "/" + album, function(data) {
                 load_jplayer(data);
               });
             });
