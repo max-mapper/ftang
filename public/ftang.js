@@ -1,4 +1,8 @@
 $( function() {
+  $('#toggle_playlist').live('click', function(e) {
+    $('#playlist').toggle();
+  });
+  
   var load_jplayer = function(playlist) {
     var playItem = 0;
     var myPlayList = playlist;
@@ -101,7 +105,7 @@ $( function() {
   var load_artists = function() {
     $.get( '/artists', function(data) {
       $('#content').html( data );
-      $('ul').listnav({showCounts: false});
+      $('#tiles ul').listnav({showCounts: false});
       $(".tiles a").click(function(e) {
         var artist = $(this).text().trim(" ");
         e.preventDefault();

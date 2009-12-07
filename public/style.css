@@ -63,6 +63,21 @@ html, body {
     line-height: 45px;
     float: left; }
 
+#toggle_playlist {
+  float: right;
+  width: 50px;
+  color: #eeeeee;
+  font-family: "Museo 700", Helvetica,Arial,sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  text-shadow: 0 2px 0 #3c3809; }
+
+#playlist {
+  width: 20%;
+  float: right;
+  height: 100%;
+  background-color: #eee; }
+
 #jquery_jplayer {
   float: right; }
 
