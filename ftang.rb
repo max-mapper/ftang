@@ -11,6 +11,12 @@ helpers do
   def reset_session
     env['rack.session'] = {}
   end
+  
+  def capture(*args)
+    args.each_with_index do |arg, i|
+      instance_variable_set("@#{arg}".to_sym, params[:captures][i])
+    end
+  end
 end
 
 configure do
@@ -43,7 +49,7 @@ end
 
 get %r{/play/([^/]+)(/)?} do
   pass unless params[:captures][1].nil?
-  @artist = params[:captures][0]
+  capture :artist
   @albums = {}
   Pow("#{base_dir}/#{@artist}/").directories.each do |album|
     @cover = get_cover(@artist, album.name)
@@ -58,15 +64,13 @@ get %r{/play/([^/]+)(/)?} do
 end
 
 get %r{/play/([^/]+)/([^/]+)?} do
-  @artist = params[:captures][0]
-  @album = params[:captures][1]
+  capture :artist, :album
   @cover = get_cover(@artist, @album)
   partial :songs, :locals => {:artist => @artist, :album => @album, :cover => @cover}
 end
 
 get %r{/playlist/add/([^/]+)/([^/]+)} do
-  @artist = params[:captures][0]
-  @album = params[:captures][1]
+  capture :artist, :album
   p "artist: #{@artist}, album: #{@album}"
   @songs = []
   Pow("#{base_dir}/#{@artist}/#{@album}/").files.each do |song|
@@ -95,7 +99,7 @@ end
 get '/allcovers' do
   @artists = []
   @covers = {}
-  Pow("#{base_dir}").directories.each do |artist|
+  Pow(base_dir).directories.each do |artist|
     albums = []
     artist.directories.each do |album|
       cover = get_cover(artist.name, album.name)
