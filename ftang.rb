@@ -19,8 +19,7 @@ configure do
 end
 
 def get_cover(artist, album)
-  path = Pow("#{base_dir}/#{artist}/#{album}")
-  path.files.each do |file|
+  Pow("#{base_dir}/#{artist}/#{album}").files.each do |file|
     if file.extention =~ /jpe?g|png/i
       return "/#{MUSIC_DIR}/#{artist}/#{album}/#{file.name}"
     end
@@ -35,8 +34,7 @@ end
 
 get '/artists' do
   @artists = []
-  path = Pow(base_dir)
-  path.directories.each do |artist| 
+  Pow(base_dir).directories.each do |artist| 
     @artists << artist.name
   end
   @artists.sort!
@@ -47,8 +45,7 @@ get %r{/play/([^/]+)(/)?} do
   pass unless params[:captures][1].nil?
   @artist = params[:captures][0]
   @albums = {}
-  path = Pow("#{base_dir}/#{@artist}/")
-  path.directories.each do |album|
+  Pow("#{base_dir}/#{@artist}/").directories.each do |album|
     @cover = get_cover(@artist, album.name)
     if @cover
       @albums.merge!({"#{album.name}" => @cover})
@@ -63,7 +60,6 @@ end
 get %r{/play/([^/]+)/([^/]+)?} do
   @artist = params[:captures][0]
   @album = params[:captures][1]
-  path = Pow("#{base_dir}/#{@artist}/#{@album}/")
   @cover = get_cover(@artist, @album)
   partial :songs, :locals => {:artist => @artist, :album => @album, :cover => @cover}
 end
@@ -73,8 +69,7 @@ get %r{/playlist/add/([^/]+)/([^/]+)} do
   @album = params[:captures][1]
   p "artist: #{@artist}, album: #{@album}"
   @songs = []
-  path = Pow("#{base_dir}/#{@artist}/#{@album}/")
-  path.files.each do |song|
+  Pow("#{base_dir}/#{@artist}/#{@album}/").files.each do |song|
     unless song.name =~ /.jpe?g|.png|.gif|.DS_Store/i
       @songs << {"name" => "#{CGI.unescape(song.name)}", "mp3" => "/#{MUSIC_DIR}/#{@artist}/#{@album}/#{song.name}"}
     end
@@ -100,8 +95,7 @@ end
 get '/allcovers' do
   @artists = []
   @covers = {}
-  path = Pow("#{base_dir}")
-  path.directories.each do |artist|
+  Pow("#{base_dir}").directories.each do |artist|
     albums = []
     artist.directories.each do |album|
       cover = get_cover(artist.name, album.name)
