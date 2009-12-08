@@ -50,17 +50,14 @@ end
 get %r{/play/([^/]+)(/)?} do
   pass unless params[:captures][1].nil?
   capture :artist
-  @albums = {}
+  @albums2covers = {}
   Pow("#{base_dir}/#{@artist}/").directories.each do |album|
-    @cover = get_cover(@artist, album.name)
-    if @cover
-      @albums.merge!({"#{album.name}" => @cover})
-    else
-      @albums.merge!({"#{album.name}" => "missing"})
-    end
+    cover = get_cover(@artist, album.name)
+    cover ||= "missing"
+    @albums2covers.merge!({"#{album.name}" => cover})
   end
-  @albums = @albums.sort{|a,b| a[1]<=>b[1]}
-  partial :albums, :locals => {:artist => @artist, :albums => @albums, :cover => @cover}
+  @albums2covers.sort! {|a,b| a[1]<=>b[1]}
+  partial :albums, :locals => {:artist => @artist, :albums => @albums}
 end
 
 get %r{/play/([^/]+)/([^/]+)?} do
