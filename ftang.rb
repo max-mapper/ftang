@@ -1,28 +1,3 @@
-use Rack::Session::Cookie
-
-MUSIC_DIR = "music"
-def base_dir;"public/#{MUSIC_DIR}";end
-
-helpers do
-  def partial(page, options={})
-    haml page, options.merge!(:layout => false)
-  end
-  
-  def reset_session
-    env['rack.session'] = {}
-  end
-  
-  def capture(*args)
-    args.each_with_index do |arg, i|
-      instance_variable_set("@#{arg}".to_sym, params[:captures][i])
-    end
-  end
-end
-
-configure do
-  set :views, "#{File.dirname(__FILE__)}/views"
-  set :sessions, true
-end
 
 def get_cover(artist, album)
   Pow("#{base_dir}/#{artist}/#{album}").files.each do |file|
@@ -50,20 +25,22 @@ end
 get %r{/play/([^/]+)(/)?} do
   pass unless params[:captures][1].nil?
   capture :artist
-  @albums2covers = {}
+  
+  @albums_covers = {}
   Pow("#{base_dir}/#{@artist}/").directories.each do |album|
     cover = get_cover(@artist, album.name)
     cover ||= "missing"
-    @albums2covers.merge!({"#{album.name}" => cover})
+    @albums_covers.merge!({"#{album.name}" => cover})
   end
-  @albums2covers.sort! {|a,b| a[1]<=>b[1]}
-  partial :albums, :locals => {:artist => @artist, :albums => @albums}
+  
+  @albums_covers = @albums_covers.sort {|a,b| a[1]<=>b[1]}
+  partial :albums, :locals => {:artist => @artist, :albums => @albums_covers}
 end
 
 get %r{/play/([^/]+)/([^/]+)?} do
   capture :artist, :album
   @cover = get_cover(@artist, @album)
-  partial :songs, :locals => {:artist => @artist, :album => @album, :cover => @cover}
+  partial :songs, :locals => {:artist => @artist, :cover => @cover}
 end
 
 get %r{/playlist/add/([^/]+)/([^/]+)} do
