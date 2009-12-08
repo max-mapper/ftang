@@ -12,6 +12,8 @@ require 'ftang'
 require 'cgi'
 require 'sass/plugin/rack'
 require 'json'
+require 'logger'
+
 use Sass::Plugin::Rack
 Sass::Plugin.options[:css_location] = "./public" 
 Sass::Plugin.options[:template_location] = "./views"

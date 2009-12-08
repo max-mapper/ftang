@@ -22,8 +22,7 @@ get '/artists' do
   partial :artists, :locals => {:artists => @artists}
 end
 
-get %r{/play/([^/]+)(/)?} do
-  pass unless params[:captures][1].nil?
+get %r{/play/([^/]+)} do
   capture :artist
   
   @albums_covers = {}
@@ -37,7 +36,7 @@ get %r{/play/([^/]+)(/)?} do
   partial :albums, :locals => {:artist => @artist, :albums => @albums_covers}
 end
 
-get %r{/play/([^/]+)/([^/]+)?} do
+get %r{/play/([^/]+)/([^/]+)} do
   capture :artist, :album
   @cover = get_cover(@artist, @album)
   partial :songs, :locals => {:artist => @artist, :cover => @cover}
@@ -85,8 +84,4 @@ get '/allcovers' do
     @artists << {"name" => artist.name, "albums" => albums} unless albums.empty?
   end
   haml :all
-end
-
-not_found do
-  haml :"404"
 end
