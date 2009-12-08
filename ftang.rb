@@ -1,7 +1,7 @@
 use Rack::Session::Cookie
 
-def music_dir;"music";end
-def base_dir;"public/#{music_dir}";end
+MUSIC_DIR = "music"
+def base_dir;"public/#{MUSIC_DIR}";end
 
 helpers do
   def partial(page, options={})
@@ -22,7 +22,7 @@ def get_cover(artist, album)
   path = Pow("#{base_dir}/#{artist}/#{album}")
   path.files.each do |file|
     if file.extention =~ /jpe?g|png/i
-      return "/#{music_dir}/#{artist}/#{album}/#{file.name}"
+      return "/#{MUSIC_DIR}/#{artist}/#{album}/#{file.name}"
     end
   end
   nil
@@ -71,15 +71,17 @@ end
 get %r{/playlist/add/([^/]+)/([^/]+)} do
   @artist = params[:captures][0]
   @album = params[:captures][1]
+  p "artist: #{@artist}, album: #{@album}"
   @songs = []
   path = Pow("#{base_dir}/#{@artist}/#{@album}/")
   path.files.each do |song|
     unless song.name =~ /.jpe?g|.png|.gif|.DS_Store/i
-      @songs << {"name" => "#{CGI.unescape(song.name)}", "mp3" => "/#{music_dir}/#{@artist}/#{@album}/#{song.name}"}
+      @songs << {"name" => "#{CGI.unescape(song.name)}", "mp3" => "/#{MUSIC_DIR}/#{@artist}/#{@album}/#{song.name}"}
     end
   end
   @songs = @songs.sort{|a,b| a["name"]<=>b["name"]}
   @songs.each {|song| session[:playlist] << song}
+  p "sweet beans"
 end
 
 get '/playlist/load' do

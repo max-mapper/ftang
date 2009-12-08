@@ -39,13 +39,13 @@ html, body {
   -x-system-font: none;
   color: #eeeeee;
   font-family: "Museo 700", Helvetica,Arial,sans-serif;
-  font-size: 50px;
+  font-size: 45px;
   font-size-adjust: none;
   font-stretch: normal;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  line-height: 40px;
+  line-height: 45px;
   text-shadow: 0 7px 0 #3c3809;
   margin: 0px;
   float: left; }
@@ -73,6 +73,12 @@ html, body {
   font-size: 12px;
   line-height: 20px;
   text-shadow: 0 2px 0 #3c3809; }
+
+#clear_playlist {
+  height: 30px;
+  position: relative;
+  bottom: 0px;
+  color: #000; }
 
 #playlist {
   width: 20%;

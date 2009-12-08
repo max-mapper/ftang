@@ -102,19 +102,23 @@ $( function() {
       playListChange( index );
     }
   };
-  
+  var load_playlist = function() {
+    $.getJSON('/playlist/load', function(data) {
+      load_jplayer(data);
+    });
+  };
   var load_artists = function() {
     $.get( '/artists', function(data) {
-      $('#content').html( data );
+      $('#content').html(data);
       $('#tiles ul').listnav({showCounts: false});
-      $(".tiles a").click(function(e) {
+      $(".tiles a").click(function(e) { //load albums for clicked artist
         e.preventDefault();
         var artist = $(this).text().trim(" ");
         $.get( $(this).attr('href'), function(data) {
           $('#content').html(data);
           $('#header_artist').show();
           $('#header_artist h1').text(artist);
-          $("a").click(function(e) {
+          $("a").click(function(e) { //add album to playlist
             e.preventDefault();
             var album = $(this).text().trim(" ");
             $.get( $(this).attr('href'), function(data) {
@@ -122,9 +126,7 @@ $( function() {
               $('#header_album').show();
               $('#header_album h1').text(album);
               $.get("/playlist/add/" + artist + "/" + album, function() {
-                $.getJSON('/playlist/load', function(data) {
-                  load_jplayer(data);
-                });
+                load_playlist();
               });
             });
           });
@@ -133,7 +135,7 @@ $( function() {
     });
   };
 
-  $(".home_nav").click( function() {
+  $(".home_nav").live("click", function() {
     load_artists();
     $('#header_artist h1').text("");
     $('#header_artist').hide();
@@ -141,8 +143,14 @@ $( function() {
     $('#header_album').hide();
   });
   
+  $('#clear_playlist').live('click', function(e) {
+    $.get('/playlist/clear', function(){
+      load_jplayer();
+    });
+  });
+  
   load_artists();
-
+  load_jplayer
   try {
   _uacct = "UA-9156272-1";
   urchinTracker();
