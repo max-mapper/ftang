@@ -9,7 +9,7 @@ $( function() {
     
     $("#jquery_jplayer").jPlayer({
       ready: function() {
-        console.log('jplayer sucks at loading its swf so this is in here to create a slight delay');
+        $('#playlist_list ul').empty();
         displayPlayList();
         playListInit(true); // Parameter is a boolean for autoplay.
       },
@@ -150,6 +150,7 @@ $( function() {
   
   $('#clear_playlist').live('click', function(e) {
     $.get('/playlist/clear', function(){
+      $('#playlist_list ul').empty();
       load_playlist();
     });
   });

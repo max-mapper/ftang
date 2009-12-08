@@ -148,6 +148,7 @@
   text-align: right; }
 
 #playlist_list {
+  width: 100%;
   display: block;
   float: left;
   padding: 50px 0px 0px 0px;
