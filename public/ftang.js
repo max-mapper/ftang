@@ -1,17 +1,20 @@
+var myPlayList;
+
 $( function() {  
   $('#toggle_playlist').live('click', function(e) {
     $('#playlist').toggle();
   });
   
-  var load_jplayer = function(playlist) {
+  
+  var load_jplayer = function init_jplayer (playlist) {
     var playItem = 0;
-    var myPlayList = playlist;
+    myPlayList = playlist;
     
     $("#jquery_jplayer").jPlayer({
       ready: function() {
         $('#playlist_list ul').empty();
         displayPlayList();
-        playListInit(true); // Parameter is a boolean for autoplay.
+        playListInit(false); // Parameter is a boolean for autoplay.
       },
       oggSupport: false
     })
