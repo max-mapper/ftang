@@ -50,6 +50,11 @@ get %r{/playlist/add/([^/]+)/([^/]+)} do
   p "sweet beans"
 end
 
+get %r{/playlist/remove/([^/]+)} do
+  capture :song
+  session[:playlist].delete_at(@song.to_i)
+end
+
 get '/playlist/load' do
   content_type :json
   session[:playlist].to_json
