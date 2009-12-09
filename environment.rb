@@ -1,6 +1,7 @@
 use Rack::Session::Cookie
 
 MUSIC_DIR = "music"
+NOT_A_SONG = /.jpe?g|.png|.gif|.DS_Store/i
 
 configure do
   set :views, "#{File.dirname(__FILE__)}/views"
@@ -9,9 +10,7 @@ configure do
 end
 
 helpers do
-  def logger
-    LOGGER
-  end
+  def logger; LOGGER; end
   
   def base_dir;"public/#{MUSIC_DIR}";end
   
@@ -21,6 +20,15 @@ helpers do
   
   def reset_session
     env['rack.session'] = {}
+  end
+  
+  def get_cover(artist, album)
+    Pow("#{base_dir}/#{artist}/#{album}").files.each do |file|
+      if file.extention =~ /jpe?g|png/i
+        return "/#{MUSIC_DIR}/#{artist}/#{album}/#{file.name}"
+      end
+    end
+    nil
   end
   
   def capture(*args)

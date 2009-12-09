@@ -1,13 +1,4 @@
 
-def get_cover(artist, album)
-  Pow("#{base_dir}/#{artist}/#{album}").files.each do |file|
-    if file.extention =~ /jpe?g|png/i
-      return "/#{MUSIC_DIR}/#{artist}/#{album}/#{file.name}"
-    end
-  end
-  nil
-end
-
 get '/' do
   session[:playlist] ||= []
   haml :base
@@ -47,8 +38,11 @@ get %r{/playlist/add/([^/]+)/([^/]+)} do
   p "artist: #{@artist}, album: #{@album}"
   @songs = []
   Pow("#{base_dir}/#{@artist}/#{@album}/").files.each do |song|
-    unless song.name =~ /.jpe?g|.png|.gif|.DS_Store/i
-      @songs << {"name" => "#{CGI.unescape(song.name)}", "mp3" => "/#{MUSIC_DIR}/#{@artist}/#{@album}/#{song.name}"}
+    unless song.name =~ NOT_A_SONG
+      @songs << { 
+        "name" => "#{CGI.unescape(song.name)}",
+        "mp3" => "/#{MUSIC_DIR}/#{@artist}/#{@album}/#{song.name}"
+      }
     end
   end
   @songs = @songs.sort{|a,b| a["name"]<=>b["name"]}
