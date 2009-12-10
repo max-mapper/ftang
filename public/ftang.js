@@ -1,14 +1,13 @@
-var myPlayList;
+// documentation this version of jplayer: http://www.happyworm.com/jquery/jplayer/0.2.5/developer-guide.htm
 
 $( function() {  
   $('#toggle_playlist').live('click', function(e) {
     $('#playlist').toggle();
   });
   
-  
   var load_jplayer = function init_jplayer (playlist) {
     var playItem = 0;
-    myPlayList = playlist;
+    var myPlayList = playlist;
     
     $("#jquery_jplayer").jPlayer({
       ready: function() {
@@ -72,6 +71,12 @@ $( function() {
             $("#jquery_jplayer").play();
           }
         });
+        
+        $("#playlist_list ul").append("<li id='playlist_remove_item_"+i+"'>"+ 'rm' +"</li>");
+        $("#playlist_remove_item_"+i).click( function() {
+          var index = $(this).attr('id').split('_').pop();
+          playListRemove(index);
+        });
       }
     }
 
@@ -104,18 +109,36 @@ $( function() {
       var index = (playItem-1 >= 0) ? playItem-1 : myPlayList.length-1;
       playListChange( index );
     }
+    
+    function playListRemove(song) {
+      $.get('/playlist/remove/'+song);
+      //kill the song element
+      $("#playlist_item_"+song).remove();
+      $("#playlist_remove_item_"+song).remove();
+      //fill in gaps in list order
+      for(var i = song; i < $(myPlayList).size(); i++) {
+        $("#playlist_item_"+i).attr( 'id', "playlist_item_"+(i-1) );
+        $("#playlist_remove_item_"+i).attr( 'id', "playlist_remove_item_"+(i-1) );
+      }
+      //remove from playlist
+      myPlayList.splice(song, 1);
+      //decrement playItem if index of removed item > playItem
+      if(playItem > song) {
+        playItem--;
+      }
+    }
+  };
+  
+  var load_artists = function() {
+    $.get( '/artists', function(data) {
+      $('#content').html(data);
+      $('#tiles ul').listnav({showCounts: false});
+    });
   };
   
   var load_playlist = function() {
     $.getJSON('/playlist/load', function(data) {
       load_jplayer(data);
-    });
-  };
-
-  var load_artists = function() {
-    $.get( '/artists', function(data) {
-      $('#content').html(data);
-      $('#tiles ul').listnav({showCounts: false});
     });
   };
   
