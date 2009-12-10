@@ -1,4 +1,3 @@
-
 def get_cover(artist, album)
   Pow("#{base_dir}/#{artist}/#{album}").files.each do |file|
     if file.extention =~ /jpe?g|png/i
