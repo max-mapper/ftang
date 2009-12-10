@@ -72,7 +72,7 @@ $( function() {
           }
         });
         
-        $("#playlist_list ul").append("<li id='playlist_remove_item_"+i+"'>"+ 'rm' +"</li>");
+        $("#playlist_item_" + i).append("<span id='playlist_remove_item_"+i+"' class='playlist_remove'>"+ 'rm' +"</span>");
         $("#playlist_remove_item_"+i).click( function() {
           var index = $(this).attr('id').split('_').pop();
           playListRemove(index);
@@ -179,6 +179,16 @@ $( function() {
       $('#playlist_list ul').empty();
       load_playlist();
     });
+  });
+  
+  $(".playlist_remove").hide();
+  
+  $('#playlist_list ul li').live("mouseover", function(){
+    $(this).find("span").filter(":first").show();
+  });
+  
+  $('#playlist_list ul li').live("mouseout", function(){
+    $(this).find("span").filter(":first").hide();
   });
   
   load_artists();
