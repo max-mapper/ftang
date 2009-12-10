@@ -76,6 +76,7 @@ $( function() {
         $("#playlist_remove_item_"+i).click( function() {
           var index = $(this).attr('id').split('_').pop();
           playListRemove(index);
+          return false;
         });
       }
     }
@@ -148,12 +149,14 @@ $( function() {
     var album = $(this).text().trim(" ");
     $.get( $(this).attr('href'), function(data) {
       $('#content').html(data);
-      $('#header_album').show();
-      $('#header_album h1').text(album);
       $.get("/playlist/add/" + artist + "/" + album, function() {
         load_playlist();
       });
     });
+  }).live("mouseover", function(){
+    $(this).parents().filter(':first').append("<span class='add_album_to_playlist'>+ Add album to playlist</span>");
+  }).live("mouseout", function(){
+    $(this).parents().filter(':first').find('.add_album_to_playlist').remove();
   });
 
   $(".tiles a").live("click", function(e){
@@ -181,11 +184,10 @@ $( function() {
     });
   });
   
-  $(".playlist_remove").hide();
   
   $('#playlist_list ul li').live("mouseover", function(){
     $(this).find("span").filter(":first").show();
-  });
+  })
   
   $('#playlist_list ul li').live("mouseout", function(){
     $(this).find("span").filter(":first").hide();

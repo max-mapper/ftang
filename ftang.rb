@@ -26,12 +26,6 @@ get %r{/play/([^/]+)} do
   partial :albums, :locals => {:artist => @artist, :albums => @albums_covers}
 end
 
-get %r{/play/([^/]+)/([^/]+)} do
-  capture :artist, :album
-  @cover = get_cover(@artist, @album)
-  partial :songs, :locals => {:artist => @artist, :cover => @cover}
-end
-
 get %r{/playlist/add/([^/]+)/([^/]+)} do
   capture :artist, :album
   p "artist: #{@artist}, album: #{@album}"
