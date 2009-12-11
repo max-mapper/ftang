@@ -153,10 +153,16 @@ $( function() {
         load_playlist();
       });
     });
-  }).live("mouseover", function(){
-    $(this).parents().filter(':first').append("<span class='add_album_to_playlist'>+ Add album to playlist</span>");
-  }).live("mouseout", function(){
-    $(this).parents().filter(':first').find('.add_album_to_playlist').remove();
+  });
+  
+  var add_html = "<span class='view_songs_in_album'>View songs in album</span>" +
+                  "<span class='add_album_to_playlist'>+ Add album to playlist</span>";
+
+  $('.cover').live("mouseover", function(){
+    var cover = this;
+    $('.add_album_to_playlist').remove();
+    $('.view_songs_in_album').remove();
+    $(cover).append(add_html);
   });
 
   $(".tiles a").live("click", function(e){
