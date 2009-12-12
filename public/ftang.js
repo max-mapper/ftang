@@ -158,14 +158,15 @@ $( function() {
   var add_html = "<span class='view_songs_in_album'>View songs in album</span>" +
                   "<span class='add_album_to_playlist'>+ Add album to playlist</span>";
 
-  $('.cover').live("mouseover", function(){
-    var cover = this;
+  $('.cover').live("mouseover", function() {
+    var cover = $(this).parents().filter(':first');
+    console.log(cover);
     $('.add_album_to_playlist').remove();
     $('.view_songs_in_album').remove();
     $(cover).append(add_html);
   });
 
-  $(".tiles a").live("click", function(e){
+  $(".tiles a").live("click", function(e) {
     e.preventDefault();
     var artist = $(this).text().trim(" ");
     $.get( $(this).attr('href'), function(data) {
@@ -191,11 +192,11 @@ $( function() {
   });
   
   
-  $('#playlist_list ul li').live("mouseover", function(){
+  $('#playlist_list ul li').live("mouseover", function() {
     $(this).find("span").filter(":first").show();
   })
   
-  $('#playlist_list ul li').live("mouseout", function(){
+  $('#playlist_list ul li').live("mouseout", function() {
     $(this).find("span").filter(":first").hide();
   });
   
