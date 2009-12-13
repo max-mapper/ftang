@@ -142,30 +142,39 @@ $( function() {
       load_jplayer(data);
     });
   };
-  
-  $(".cover").live("click", function(e) { //add album to playlist
+
+  $(".add_album_to_playlist").live("click", function(e) {
     e.preventDefault();
-    var artist = $('#header_artist h1').text();
-    var album = $(this).text().trim(" ");
-    $.get( $(this).attr('href'), function(data) {
-      $('#content').html(data);
-      $.get("/playlist/add/" + artist + "/" + album, function() {
-        load_playlist();
-      });
+    var cover = $(this).parents().filter(':first');
+    var img = $(cover).find('img');
+    var album = $(img).attr('album');
+    var artist = $(img).attr('artist');
+    $.get('/playlist/add/' + artist + '/' + album, function() {
+      load_playlist();
     });
   });
-  
-  var add_html = "<span class='view_songs_in_album'>View songs in album</span>" +
-                  "<span class='add_album_to_playlist'>+ Add album to playlist</span>";
 
-  $('.cover').live("mouseover", function() {
-    var cover = $(this).parents().filter(':first');
-    console.log(cover);
+  function append_playlist_add_buttons (cover) {
     $('.add_album_to_playlist').remove();
     $('.view_songs_in_album').remove();
+    var add_html = "<div class='view_songs_in_album'>View songs in album</div>" +
+                   "<div class='add_album_to_playlist'>+ Add album to playlist</div>";
     $(cover).append(add_html);
-  });
+  }
 
+  function create_album_mouseover_triggers() {
+    $('.album').mouseover(function(){
+      append_playlist_add_buttons(this);
+      reset_cover_mouseover_triggers(this);
+    });
+  }
+
+  function reset_cover_mouseover_triggers(cover) {
+    $('.album').unbind();
+    create_album_mouseover_triggers();
+    $(cover).unbind();
+  }
+  
   $(".tiles a").live("click", function(e) {
     e.preventDefault();
     var artist = $(this).text().trim(" ");
@@ -173,6 +182,7 @@ $( function() {
       $('#content').html(data);
       $('#header_artist').show();
       $('#header_artist h1').text(artist);
+      create_album_mouseover_triggers();
     });
   });
 

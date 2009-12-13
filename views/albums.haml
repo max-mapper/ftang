@@ -1,16 +1,14 @@
 #covers
   - albums.each do |album, art|
     - if art != "missing"
-      #cover
-        %a{:href => "/play/#{CGI.escape(artist)}/#{album}", :class => "cover"}
-          %img{:src => "#{art}", :width => '300px', :height => '300px', :style => "z-index:100"}
+      .album.has_cover
+        %img{:src => art, :width => '300px', :height => '300px', :style => "z-index:100", :album => album, :artist => CGI.escape(artist)}
           %span{:style => "z-index:200"}
             %center
               =album
   - albums.each do |album, art|
     - if art == "missing"
-      #nocovers
-        %a{:href => "/play/#{CGI.escape(artist)}/#{album}"}
-        %img{:src => "/images/nocover.png", :width => '300px', :height => '300px', :class => "cover"}
+      .album.no_cover
+        %img{:src => "/images/nocover.png", :width => '300px', :height => '300px', :add_url => "/playlist/add/#{CGI.escape(artist)}/#{album}"}
           %h3
             =album
