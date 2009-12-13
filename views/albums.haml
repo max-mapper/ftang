@@ -9,6 +9,6 @@
   - albums.each do |album, art|
     - if art == "missing"
       .album.no_cover
-        %img{:src => "/images/nocover.png", :width => '300px', :height => '300px', :add_url => "/playlist/add/#{CGI.escape(artist)}/#{album}"}
+        %img{:src => "/images/nocover.png", :width => '300px', :height => '300px', :album => album, :artist => CGI.escape(artist)}
           %h3
             =album
