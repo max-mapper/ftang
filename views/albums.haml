@@ -10,5 +10,6 @@
     - if art == "missing"
       .album.no_cover
         %img{:src => "/images/nocover.png", :width => '300px', :height => '300px', :album => album, :artist => CGI.escape(artist)}
-          %h3
-            =album
+          %span
+            %center
+              =album

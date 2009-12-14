@@ -1,9 +1,10 @@
-// documentation this version of jplayer: http://www.happyworm.com/jquery/jplayer/0.2.5/developer-guide.htm
+// documentation for this version of jplayer: http://www.happyworm.com/jquery/jplayer/0.2.5/developer-guide.htm
+var myPlayList = "";
 
 $( function() {  
   function init_jplayer (playlist) {
     var playItem = 0;
-    var myPlayList = playlist;
+    myPlayList = playlist;
     
     $("#jquery_jplayer").jPlayer({
       ready: function() {
@@ -107,10 +108,6 @@ $( function() {
       playListChange( index );
     }
     
-    function playListEmpty() {
-      
-    }
-    
     function playListRemove(song) {
       $.get('/playlist/remove/'+song);
       //kill the song element
@@ -137,29 +134,27 @@ $( function() {
     });
   }
   
-  function delegate_toggle_playlist_triggers() {
-    $('#toggle_playlist').toggle(
-      function() {
-        $('#content').css('width', '100%');
-        $('#playlist').hide();
-      },
-      function() {
-        $('#content').css('width', '80%');
-        $('#playlist').show();
-    });
+  function show_playlist() {
+    $('#content').css('width', '80%');
+    $('#playlist').show();
   }
   
-  function show_playlist_if_hidden() {
-    if( $('#playlist').is(":hidden") == true ){
-      console.log('clicking toggle playlist');
-      $('#toggle_playlist').click();
+  function hide_playlist() {
+    $('#content').css('width', '100%');
+    $('#playlist').hide();
+  }
+  
+  function toggle_playlist_visibility() {
+    if( $('#playlist').is(":hidden") == true ) {
+      show_playlist();
+    } else {
+      hide_playlist();
     }
   }
   
   function load_playlist() {
     $.getJSON('/playlist/load', function(data) {
       init_jplayer(data);
-      show_playlist_if_hidden();
     });
   }
 
@@ -171,6 +166,7 @@ $( function() {
     var artist = $(img).attr('artist');
     $.get('/playlist/add/' + artist + '/' + album, function() {
       load_playlist();
+      show_playlist();
     });
   });
 
@@ -217,8 +213,8 @@ $( function() {
   $('#clear_playlist').live('click', function(e) {
     $.get('/playlist/clear', function(){
       $('#playlist_list ul').empty();
-      init_jplayer({});
-      $('#toggle_playlist').click();
+      init_jplayer();
+      hide_playlist();
     });
   });
   
@@ -230,9 +226,13 @@ $( function() {
     $(this).find("span").filter(":first").hide();
   });
   
+  $('#toggle_playlist').live('click', function() {
+    toggle_playlist_visibility();
+  });
+  
   load_artists();
   load_playlist();
-  delegate_toggle_playlist_triggers();
+  hide_playlist();
   
   try {
   _uacct = "UA-9156272-1";
