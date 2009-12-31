@@ -1,16 +1,95 @@
 // documentation for this version of jplayer: http://www.happyworm.com/jquery/jplayer/0.2.5/developer-guide.htm
 var myPlayList = "";
-
-$( function() {  
-  function init_jplayer (playlist) {
-    var playItem = 0;
-    myPlayList = playlist;
+var playItem = 0;
+var Playlist = {
+	displayPlayList: function() {
+		Playlist.playListInit(false);
+		$('#playlist_list ul').empty();
+	  for (i=0; i < myPlayList.length; i++) {
+	    $("#playlist_list ul").append("<li id='playlist_item_"+i+"'>"+ myPlayList[i].name +"</li>");
+	    $("#playlist_item_"+i).data( "index", i ).hover(
+	      function() {
+	        if (playItem != $(this).data("index")) {
+	          $(this).addClass("playlist_hover");
+	        }
+	      },
+	      function() {
+	        $(this).removeClass("playlist_hover");
+	      }
+	    ).click( function() {
+	      var index = $(this).data("index");
+	      if (playItem != index) {
+	        Playlist.playListChange( index );
+	      } else {
+	        $("#jquery_jplayer").play();
+	      }
+	    });
     
+	    $("#playlist_item_" + i).append("<span id='playlist_remove_item_"+i+"' class='playlist_remove'>"+ 'rm' +"</span>");
+	    $("#playlist_remove_item_"+i).click( function() {
+	      var index = $(this).attr('id').split('_').pop();
+	      Playlist.playListRemove(index);
+	      return false;
+	    });
+	  }
+	},
+
+	playListInit: function(autoplay) {
+	  if(autoplay) {
+	    Playlist.playListChange( playItem );
+	  } else {
+	    Playlist.playListConfig( playItem );
+	  }
+	},
+
+	playListConfig: function( index ) {
+	  $("#playlist_item_"+playItem).removeClass("playlist_current");
+	  $("#playlist_item_"+index).addClass("playlist_current");
+	  playItem = index;
+	  $("#jquery_jplayer").setFile(myPlayList[playItem].mp3, myPlayList[playItem].ogg);
+	},
+
+	playListChange: function( index ) {
+	  Playlist.playListConfig( index );
+	  $("#jquery_jplayer").play();
+	},
+
+	playListNext: function() {
+	  var index = (playItem+1 < myPlayList.length) ? playItem+1 : 0;
+	  Playlist.playListChange( index );
+	},
+
+	playListPrev: function() {
+	  var index = (playItem-1 >= 0) ? playItem-1 : myPlayList.length-1;
+	  Playlist.playListChange( index );
+	},
+
+	playListRemove: function(song) {
+	  $.get('/playlist/remove/'+song);
+	  //kill the song element
+	  $("#playlist_item_"+song).remove();
+	  $("#playlist_remove_item_"+song).remove();
+	  //fill in gaps in list order
+	  for(var i = song; i < $(myPlayList).size(); i++) {
+	    $("#playlist_item_"+i).attr( 'id', "playlist_item_"+(i-1) );
+	    $("#playlist_remove_item_"+i).attr( 'id', "playlist_remove_item_"+(i-1) );
+	  }
+	  //remove from playlist
+	  myPlayList.splice(song, 1);
+	  //decrement playItem if index of removed item > playItem
+	  if(playItem > song) {
+	    playItem--;
+	  }
+	}
+}
+
+$( function() {
+  function init_jplayer (playlist) {
+    myPlayList = playlist;
     $("#jquery_jplayer").jPlayer({
       ready: function() {
         $('#playlist_list ul').empty();
-        displayPlayList();
-        playListInit(false); // Parameter is a boolean for autoplay.
+        Playlist.displayPlayList();
       },
       oggSupport: false
     })
@@ -35,96 +114,18 @@ $( function() {
       $("#total_time").text(ttMin+":"+ttSec);
     })
     .onSoundComplete( function() {
-      playListNext();
+      Playlist.playListNext();
     });
 
     $("#ctrl_prev").click( function() {
-      playListPrev();
+      Playlist.playListPrev();
       return false;
     });
 
     $("#ctrl_next").click( function() {
-      playListNext();
+      Playlist.playListNext();
       return false;
     });
-
-    function displayPlayList() {
-      for (i=0; i < myPlayList.length; i++) {
-        $("#playlist_list ul").append("<li id='playlist_item_"+i+"'>"+ myPlayList[i].name +"</li>");
-        $("#playlist_item_"+i).data( "index", i ).hover(
-          function() {
-            if (playItem != $(this).data("index")) {
-              $(this).addClass("playlist_hover");
-            }
-          },
-          function() {
-            $(this).removeClass("playlist_hover");
-          }
-        ).click( function() {
-          var index = $(this).data("index");
-          if (playItem != index) {
-            playListChange( index );
-          } else {
-            $("#jquery_jplayer").play();
-          }
-        });
-        
-        $("#playlist_item_" + i).append("<span id='playlist_remove_item_"+i+"' class='playlist_remove'>"+ 'rm' +"</span>");
-        $("#playlist_remove_item_"+i).click( function() {
-          var index = $(this).attr('id').split('_').pop();
-          playListRemove(index);
-          return false;
-        });
-      }
-    }
-
-    function playListInit(autoplay) {
-      if(autoplay) {
-        playListChange( playItem );
-      } else {
-        playListConfig( playItem );
-      }
-    }
-
-    function playListConfig( index ) {
-      $("#playlist_item_"+playItem).removeClass("playlist_current");
-      $("#playlist_item_"+index).addClass("playlist_current");
-      playItem = index;
-      $("#jquery_jplayer").setFile(myPlayList[playItem].mp3, myPlayList[playItem].ogg);
-    }
-
-    function playListChange( index ) {
-      playListConfig( index );
-      $("#jquery_jplayer").play();
-    }
-
-    function playListNext() {
-      var index = (playItem+1 < myPlayList.length) ? playItem+1 : 0;
-      playListChange( index );
-    }
-
-    function playListPrev() {
-      var index = (playItem-1 >= 0) ? playItem-1 : myPlayList.length-1;
-      playListChange( index );
-    }
-    
-    function playListRemove(song) {
-      $.get('/playlist/remove/'+song);
-      //kill the song element
-      $("#playlist_item_"+song).remove();
-      $("#playlist_remove_item_"+song).remove();
-      //fill in gaps in list order
-      for(var i = song; i < $(myPlayList).size(); i++) {
-        $("#playlist_item_"+i).attr( 'id', "playlist_item_"+(i-1) );
-        $("#playlist_remove_item_"+i).attr( 'id', "playlist_remove_item_"+(i-1) );
-      }
-      //remove from playlist
-      myPlayList.splice(song, 1);
-      //decrement playItem if index of removed item > playItem
-      if(playItem > song) {
-        playItem--;
-      }
-    }
   };
   
   function load_artists() {
@@ -154,7 +155,8 @@ $( function() {
   
   function load_playlist() {
     $.getJSON('/playlist/load', function(data) {
-      init_jplayer(data);
+      myPlayList = data;
+			Playlist.displayPlayList();
     });
   }
 
@@ -173,7 +175,7 @@ $( function() {
   function append_playlist_add_buttons (cover) {
     $('.add_album_to_playlist').remove();
     $('.view_songs_in_album').remove();
-    var add_html = "<div class='view_songs_in_album'>View songs in album</div>" +
+    var add_html = "<div class='view_songs_in_album'></div>" +
                    "<div class='add_album_to_playlist'>+ Add album to playlist</div>";
     $(cover).append(add_html);
   }
@@ -213,7 +215,7 @@ $( function() {
   $('#clear_playlist').live('click', function(e) {
     $.get('/playlist/clear', function(){
       $('#playlist_list ul').empty();
-      init_jplayer();
+			myPlayList = "";
       hide_playlist();
     });
   });
@@ -231,9 +233,11 @@ $( function() {
   });
   
   load_artists();
-  load_playlist();
+  $.getJSON('/playlist/load', function(data) {
+    myPlayList = data;
+  });
   hide_playlist();
-  
+  init_jplayer(myPlayList);
   try {
   _uacct = "UA-9156272-1";
   urchinTracker();

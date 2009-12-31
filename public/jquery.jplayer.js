@@ -86,7 +86,7 @@ Documentation: www.happyworm.com/jquery/jplayer
 						if(playing) {
 							var style = $(this).data("jPlayer.cssDisplay.pause");
 							$("#"+playId).css("display", "none");
-							$("#"+pauseId).css("display", style);
+							$("#"+pauseId).css("display", "block");
 						} else {
 							var style = $(this).data("jPlayer.cssDisplay.play");
 							$("#"+playId).css("display", style);
@@ -333,7 +333,6 @@ Documentation: www.happyworm.com/jquery/jplayer
 					
 					var display = $("#"+id).css("display");
 					$(this).data("jPlayer.cssDisplay." + fn, display);
-					
 					if(fn == "pause") {
 						$("#"+id).css("display", "none");
 					}
