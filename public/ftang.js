@@ -46,7 +46,9 @@ var Playlist = {
 	  $("#playlist_item_"+playItem).removeClass("playlist_current");
 	  $("#playlist_item_"+index).addClass("playlist_current");
 	  playItem = index;
-	  $("#jquery_jplayer").setFile(myPlayList[playItem].mp3, myPlayList[playItem].ogg);
+		if (myPlayList != "") {
+		  $("#jquery_jplayer").setFile(myPlayList[playItem].mp3, myPlayList[playItem].ogg);
+		}
 	},
 
 	playListChange: function( index ) {
@@ -233,9 +235,7 @@ $( function() {
   });
   
   load_artists();
-  $.getJSON('/playlist/load', function(data) {
-    myPlayList = data;
-  });
+	load_playlist();
   hide_playlist();
   init_jplayer(myPlayList);
   try {
