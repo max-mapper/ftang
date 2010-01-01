@@ -49,7 +49,7 @@ var FTANGPlayer = {
 	    ).click( function() {
 	      var index = $(this).data("index");
 	      if (playItem != index) {
-	       FTANGPlayer.playListChange( index );
+	      	FTANGPlayer.playListChange( index );
 	      } else {
 	        $("#jquery_jplayer").play();
 	      }
@@ -65,10 +65,10 @@ var FTANGPlayer = {
 	},
 
 	playListInit: function(autoplay) {
-	  if(autoplay) {
-	   FTANGPlayer.playListChange( playItem );
+		if(autoplay) {
+	  	FTANGPlayer.playListChange( playItem );
 	  } else {
-	   FTANGPlayer.playListConfig( playItem );
+	  	FTANGPlayer.playListConfig( playItem );
 	  }
 	},
 
@@ -82,33 +82,29 @@ var FTANGPlayer = {
 	},
 
 	playListChange: function( index ) {
-	 FTANGPlayer.playListConfig( index );
-	  $("#jquery_jplayer").play();
+		FTANGPlayer.playListConfig( index );
+		$("#jquery_jplayer").play();
 	},
 
 	playListNext: function() {
-	  var index = (playItem+1 < myPlayList.length) ? playItem+1 : 0;
-	 FTANGPlayer.playListChange( index );
+		var index = (playItem+1 < myPlayList.length) ? playItem+1 : 0;
+		FTANGPlayer.playListChange( index );
 	},
 
 	playListPrev: function() {
-	  var index = (playItem-1 >= 0) ? playItem-1 : myPlayList.length-1;
-	 FTANGPlayer.playListChange( index );
+		var index = (playItem-1 >= 0) ? playItem-1 : myPlayList.length-1;
+		FTANGPlayer.playListChange( index );
 	},
 
 	playListRemove: function(song) {
 	  $.get('/playlist/remove/'+song);
-	  //kill the song element
 	  $("#playlist_item_"+song).remove();
 	  $("#playlist_remove_item_"+song).remove();
-	  //fill in gaps in list order
 	  for(var i = song; i < $(myPlayList).size(); i++) {
 	    $("#playlist_item_"+i).attr( 'id', "playlist_item_"+(i-1) );
 	    $("#playlist_remove_item_"+i).attr( 'id', "playlist_remove_item_"+(i-1) );
 	  }
-	  //remove from playlist
 	  myPlayList.splice(song, 1);
-	  //decrement playItem if index of removed item > playItem
 	  if(playItem > song) {
 	    playItem--;
 	  }
@@ -168,8 +164,7 @@ var FTANGPlayer = {
   }
 }
 
-$( function() {
-
+$(function() {
   $(".add_album_to_playlist").live("click", function(e) {
     e.preventDefault();
     var cover = $(this).parents().filter(':first');
@@ -222,20 +217,20 @@ $( function() {
   });
 
   $("#ctrl_prev").live('click', function() {
-   FTANGPlayer.playListPrev();
-    return false;
+  	FTANGPlayer.playListPrev();
+   	return false;
   });
 
   $("#ctrl_next").live('click', function() {
-   FTANGPlayer.playListNext();
+  	FTANGPlayer.playListNext();
     return false;
   });
   
-  FTANGPlayer.loadArtists();
+	FTANGPlayer.loadArtists();
 	FTANGPlayer.initJPlayer();
-  FTANGPlayer.hidePlaylist();
+	FTANGPlayer.hidePlaylist();
 
-  try {
+  try { //google analytics
   _uacct = "UA-9156272-1";
   urchinTracker();
   } catch(err) {}
