@@ -1,5 +1,4 @@
 h1. FTANG!
-
 Ftang! is a music jukebox (a la iTunes) that runs in your web browser.
 
 h2. Requirements
@@ -17,7 +16,6 @@ h2. Installation
 </pre>
 
 h2. Adding your music
-
 By default Ftang! looks for your music at public/music. Your music should be organized in folders named for each artist. Each artist folder should contain folders named for each album. Each album folder should contain mp3 files and any album art. See the included example music directory for an example.
   
 If you use iTunes then setup is very simple as you can sym-link to your iTunes music directory. By default, iTunes stores it's music in a hierarchy that is compatible with Ftang!
@@ -31,13 +29,11 @@ To sym-link your iTunes directory on OS X, execute the following commands from i
 </pre>
 
 h2. To do
-
  # HTML5 storage for playlist
  # interface enhancements (drag and drop)
  # shuffle playlist
  email max@maxogden.com with suggestions
 
 h1. Contributors
-
 <a href="http://github.com/maxogden">Max Ogden</a>
 <a href="http://github.com/gzuki">Andrew Hay Kurtz</a>
