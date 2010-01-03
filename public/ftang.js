@@ -192,6 +192,7 @@ $(function() {
 
   $(".tiles a").live("click", function(e) {
     e.preventDefault();
+    $("#content").empty().html('<img src="images/loading.gif"/>');
     var artist = $.trim($(this).text());
     $.get( $(this).attr('href'), function(data) {
       $('#content').html(data);
@@ -202,6 +203,7 @@ $(function() {
   });
 
   $(".home_nav").live("click", function() {
+    $("#content").empty().html('<img src="loading.gif" />');
     loadArtists();
     $('#header_artist h1').text("");
     $('#header_artist').hide();

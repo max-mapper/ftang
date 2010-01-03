@@ -1,3 +1,4 @@
-sinatra --version '>= 0.9.1.1'
+sinatra --version '>= 0.9.4'
 pow --version '>= 0.2.2'
-haml --version '>= 2.0.9'
+haml --version '>= 2.2.16'
+json --version '>= 1.2.0'
