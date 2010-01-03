@@ -133,11 +133,9 @@ $(function() {
   }
   
   function appendPlaylistAddButtons(cover) {
-    $('.add_album_to_playlist').remove();
-    $('.view_songs_in_album').remove();
-    var add_html = "<div class='view_songs_in_album'></div>" +
-                   "<div class='add_album_to_playlist'>+ Add to playlist</div>";
-    $(cover).append(add_html);
+    $('#content .add_album_to_playlist').remove();
+    $('#content .view_songs_in_album').remove();
+    $(cover).append($('#add_album_to_playlist').html());
   }
 
   function createAlbumMouseoverTriggers() {
@@ -191,8 +189,8 @@ $(function() {
   });
 
   $(".tiles a").live("click", function(e) {
+    $("#content").html($('#loading').html());
     e.preventDefault();
-    $("#content").empty().html('<img src="images/loading.gif"/>');
     var artist = $.trim($(this).text());
     $.get( $(this).attr('href'), function(data) {
       $('#content').html(data);
@@ -203,7 +201,7 @@ $(function() {
   });
 
   $(".home_nav").live("click", function() {
-    $("#content").empty().html('<img src="loading.gif" />');
+    $("#content").html($('#loading').html());
     loadArtists();
     $('#header_artist h1').text("");
     $('#header_artist').hide();
