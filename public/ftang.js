@@ -8,7 +8,7 @@ var FTANGPlayer = function() { // called inline
   return { // public interface object
   	initJPlayer: function() {
       $("#jquery_jplayer").jPlayer({ 
-  			ready: function() { FTANGPlayer.loadPlaylist(); }, 
+  			ready: function() { FTANGPlayer.loadPlaylist(true); }, 
   			oggSupport: false
   		})
     	.jPlayerId("play", "player_play")
@@ -36,11 +36,20 @@ var FTANGPlayer = function() { // called inline
       })
   	},
 
+    loadPlaylist: function(initialLoad) {
+      $.getJSON('/playlist/load', function(data) {
+        playlist = data;
+  			FTANGPlayer.displayPlayList();
+				if (initialLoad) {
+					FTANGPlayer.playListConfig(playItem);
+				}
+      });
+    },
+  
   	displayPlayList: function() {
-  		FTANGPlayer.playListInit(false);
   		$('#playlist_list ul').empty();
   	  for (i=0; i < playlist.length; i++) {
-  	    $("#playlist_list ul").append("<li id='playlist_item_"+i+"'>"+ playlist[i].name +"</li>");
+  	    $("#playlist_list ul").append("<li id='playlist_item_" + i + "'>" + playlist[i].name + "</li>");
   	    $("#playlist_item_"+i).data( "index", i ).hover(
   	      function() {
   	        if (playItem != $(this).data("index")) {
@@ -52,31 +61,20 @@ var FTANGPlayer = function() { // called inline
   	    })
   	    .click( function() {
   	      var index = $(this).data("index");
-  	      if (playItem != index) {
-  	      	FTANGPlayer.playListChange( index );
-  	      } else {
-  	        $("#jquery_jplayer").play();
-  	      }
+ 	      	FTANGPlayer.playListChange(index);
   	    });
     
-  	    $("#playlist_item_" + i).append("<span id='playlist_remove_item_"+i+"' class='playlist_remove'>"+ 'rm' +"</span>");
+  	    $("#playlist_item_" + i).append("<span id='playlist_remove_item_" + i + "' class='playlist_remove'>" + 'rm' + "</span>");
   	    $("#playlist_remove_item_"+i).click( function() {
   	      var index = $(this).attr('id').split('_').pop();
-  	     FTANGPlayer.playListRemove(index);
+  	      FTANGPlayer.playListRemove(index);
   	      return false;
   	    });
   	  }
+  	  $("#playlist_item_"+playItem).addClass("playlist_current");
   	},
 
-  	playListInit: function(autoplay) {
-  		if(autoplay) {
-  	  	FTANGPlayer.playListChange( playItem );
-  	  } else {
-  	  	FTANGPlayer.playListConfig( playItem );
-  	  }
-  	},
-
-  	playListConfig: function( index ) {
+  	playListConfig: function(index) {
   	  $("#playlist_item_"+playItem).removeClass("playlist_current");
   	  $("#playlist_item_"+index).addClass("playlist_current");
   	  playItem = index;
@@ -85,19 +83,19 @@ var FTANGPlayer = function() { // called inline
   		}
   	},
 
-  	playListChange: function( index ) {
-  		FTANGPlayer.playListConfig( index );
+  	playListChange: function(index) {
+  		FTANGPlayer.playListConfig(index);
   		$("#jquery_jplayer").play();
   	},
 
   	playListNext: function() {
   		var index = (playItem+1 < playlist.length) ? playItem+1 : 0;
-  		FTANGPlayer.playListChange( index );
+  		FTANGPlayer.playListChange(index);
   	},
 
   	playListPrev: function() {
   		var index = (playItem-1 >= 0) ? playItem-1 : playlist.length-1;
-  		FTANGPlayer.playListChange( index );
+  		FTANGPlayer.playListChange(index);
   	},
 
   	playListRemove: function(song) {
@@ -113,14 +111,7 @@ var FTANGPlayer = function() { // called inline
   	    playItem--;
   	  }
   	},
-  
-    loadPlaylist: function() {
-      $.getJSON('/playlist/load', function(data) {
-        playlist = data;
-  			FTANGPlayer.displayPlayList();
-      });
-    },
-  
+
     showPlaylist: function() {
       $('#content').css('width', '80%');
       $('#playlist').show();
@@ -186,7 +177,7 @@ $(function() {
     var album = $(img).attr('album');
     var artist = $(img).attr('artist');
     $.get('/playlist/add/' + artist + '/' + album, function() {
-      FTANGPlayer.loadPlaylist();
+      FTANGPlayer.loadPlaylist(false);
       FTANGPlayer.showPlaylist();
     });
   });
