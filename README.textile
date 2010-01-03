@@ -8,7 +8,6 @@ h2. Requirements
   * enough storage space to host your music collection
 
 h2. Installation
-
 <pre>
   <code>
     gem install sinatra pow haml json

@@ -136,7 +136,7 @@ $(function() {
     $('.add_album_to_playlist').remove();
     $('.view_songs_in_album').remove();
     var add_html = "<div class='view_songs_in_album'></div>" +
-                   "<div class='add_album_to_playlist'>+ Add album to Playlist</div>";
+                   "<div class='add_album_to_playlist'>+ Add to playlist</div>";
     $(cover).append(add_html);
   }
 
