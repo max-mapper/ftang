@@ -50,26 +50,8 @@ var FTANGPlayer = function() { // called inline
   		$('#playlist_list ul').empty();
   	  for (i=0; i < playlist.length; i++) {
   	    $("#playlist_list ul").append("<li id='playlist_item_" + i + "'>" + playlist[i].name + "</li>");
-  	    $("#playlist_item_"+i).data( "index", i ).hover(
-  	      function() {
-  	        if (playItem != $(this).data("index")) {
-  	          $(this).addClass("playlist_hover");
-  	        }
-  	      },
-  	      function() {
-  	        $(this).removeClass("playlist_hover");
-  	    })
-  	    .click( function() {
-  	      var index = $(this).data("index");
- 	      	FTANGPlayer.playListChange(index);
-  	    });
-    
-  	    $("#playlist_item_" + i).append("<span id='playlist_remove_item_" + i + "' class='playlist_remove'>" + 'rm' + "</span>");
-  	    $("#playlist_remove_item_"+i).click( function() {
-  	      var index = $(this).attr('id').split('_').pop();
-  	      FTANGPlayer.playListRemove(index);
-  	      return false;
-  	    });
+  	    $("#playlist_item_"+i).data( "index", i )
+  	      .append("<span class='playlist_remove'>rm</span>");
   	  }
   	  $("#playlist_item_"+playItem).addClass("playlist_current");
   	},
@@ -102,8 +84,9 @@ var FTANGPlayer = function() { // called inline
   	  $.get('/playlist/remove/'+song);
   	  $("#playlist_item_"+song).remove();
   	  $("#playlist_remove_item_"+song).remove();
-  	  for(var i = song; i < $(playlist).size(); i++) {
-  	    $("#playlist_item_"+i).attr( 'id', "playlist_item_"+(i-1) );
+  	  for(var i = song + 1; i < $(playlist).size(); i++) {
+  	    $("#playlist_item_"+i).data( "index", i-1)
+          .attr( 'id', "playlist_item_"+(i-1) );
   	    $("#playlist_remove_item_"+i).attr( 'id', "playlist_remove_item_"+(i-1) );
   	  }
   	  playlist.splice(song, 1);
@@ -169,6 +152,31 @@ $(function() {
     createAlbumMouseoverTriggers();
     $(cover).unbind();
   }
+  
+  $('#playlist_list li').live("mouseover",
+    function() {
+      if (FTANGPlayer.playItem != $(this).data("index")) {
+        $(this).addClass("playlist_hover");
+      }
+    }
+  );
+  
+  $('#playlist_list li').live("mouseout",
+    function() {
+      $(this).removeClass("playlist_hover");
+    }
+  );
+  
+  $('#playlist_list li').live("click", function() {
+    var index = $(this).data("index");
+  	FTANGPlayer.playListChange(index);
+  });
+  
+  $(".playlist_remove").live("click", function() {
+    var index = $(this).parent().data("index");
+    FTANGPlayer.playListRemove(index);
+    return false;
+  });
   
   $(".add_album_to_playlist").live("click", function(e) {
     e.preventDefault();
