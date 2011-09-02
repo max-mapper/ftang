@@ -27,7 +27,7 @@ $(document).ready(function(){
 	});  
 	
 	player.changeSong = function(path) {
-	  console.log('changing to ' + path)
+	  app.player.currentSong = path;
 	  $(app.player).jPlayer("setMedia", {mp3: path});
 	}
 	
@@ -64,6 +64,12 @@ $(document).ready(function(){
 		$("#zen").removeClass( "play" );
 		$('#zen .progress').css({rotate: '0deg'});
 		status = "stop";
+		var next = bucket.next(player.currentSong);
+		if (next) {
+		  player.changeSong(next.url);
+		  player.play();
+		  $('.selected').removeClass('selected').next().addClass('selected');
+	  }
 	});
 	
 	// play/pause

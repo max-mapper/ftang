@@ -21,6 +21,7 @@
 	  .columns { font-family: "VT323"; height: 500px; overflow-y: auto}
 	  li { line-height: 22px; font-size: 22px; cursor: hand; cursor: pointer;  }
 	  li:hover { font-weight: bold; color: salmon;}
+	  .selected { font-weight: bold}
 	</style>
     
   <script type="text/javascript">
@@ -43,25 +44,25 @@
         return list;
       },
       fetch: function(id) {
-        return _.detect(bucket.everything(), function(doc){ return doc._id === id; })
+        return _.detect(bucket.everything(), function(doc){ return doc.url === id; })
       },
       next: function(id) {
         var matchIndex = -1;
-        _.each(bucket.everything(), function(doc, idx){ if (doc._id === id) matchIndex = idx })
+        _.each(bucket.everything(), function(doc, idx){ if (doc.url === id) matchIndex = idx })
         try {
-          return bucket.fetch(bucket.everything()[matchIndex + 1]._id);          
+          return bucket.fetch(bucket.everything()[matchIndex + 1].url);          
         } catch(e) {
           return null;
         }
       },
       add: function(newDoc) {
         var list = bucket.everything();
-        if (bucket.fetch(newDoc._id)) return;
+        if (bucket.fetch(newDoc.url)) return;
         list.push(newDoc);
         localStorage.setItem("playlist", JSON.stringify(list));
       },
       remove: function(id) {
-        var list = _.reject(bucket.everything(), function(doc){ return doc._id === id })
+        var list = _.reject(bucket.everything(), function(doc){ return doc.url === id })
         localStorage.setItem("playlist", JSON.stringify(list));
       },
       clear: function() { localStorage.removeItem("playlist") }
@@ -79,7 +80,7 @@
       app.baseURL = getBaseURL(document.location.pathname);
       couch.request({url: app.baseURL + '/api/artists'}).then(function(artists) {
         app.artists = artists.rows;
-        _.each(app.artists, function(artist) {
+        _(app.artists).each(function(artist) {
           $('.artists').append('<li>' + artist.key + '</li>');
         })
         
@@ -99,6 +100,8 @@
             })
             $('.songs li').click(function(evt) {
               app.player.changeSong($(evt.target).data('url'));
+              $('.selected').removeClass('selected');
+              $(evt.target).addClass('selected');
               app.player.play()
             })
           })
