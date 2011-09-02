@@ -77,6 +77,17 @@
     }
   
     $(function() {
+      var songsContainer = $('.songs');
+      var saved = bucket.everything();
+      
+      if (saved.length > 0) {
+        _(saved).each(function(song) {
+          var li = $('<li>' + song.album + " - " + song.song + '</li>')
+          li.data('url', song.url);
+          songsContainer.append(li);
+        })
+      }
+      
       app.baseURL = getBaseURL(document.location.pathname);
       couch.request({url: app.baseURL + '/api/artists'}).then(function(artists) {
         app.artists = artists.rows;
@@ -87,7 +98,6 @@
         $('.artists li').click(function(e) {
           var artist = $(e.target).text();
           couch.request({url: app.baseURL + '/api/artist/' + artist}).then(function(songs) {
-            var songsContainer = $('.songs');
             songsContainer.html("");
             bucket.clear();
             app.player.changeSong(songs.rows[0].doc.url);
@@ -98,14 +108,15 @@
               songsContainer.append(li);
               bucket.add(song.doc);
             })
-            $('.songs li').click(function(evt) {
-              app.player.changeSong($(evt.target).data('url'));
-              $('.selected').removeClass('selected');
-              $(evt.target).addClass('selected');
-              app.player.play()
-            })
           })
         })
+      })
+      
+      $('.songs li').live('click', function(evt) {
+        app.player.changeSong($(evt.target).data('url'));
+        $('.selected').removeClass('selected');
+        $(evt.target).addClass('selected');
+        app.player.play()
       })
     })
 	</script>
