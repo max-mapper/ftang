@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<title>AWWW YEAHHHH</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1;"> 
+    
+  <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' />
+	<link rel="stylesheet" href="http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/zen.css">
+	<style type="text/css">
+  	body { background: #f0f0f0 url(img/bg.png) }
+    #zen { float: left; margin: 10px 25px}
+	  .awesome { position: absolute; top: 0px; left: 0px }
+	  .header { width: 500px; margin: 0 auto }
+	  .title { font-size: 80px; position: relative; top: 30px; float: left }
+	  #lists { margin-top: 150px}
+	  .columns { font-family: "VT323"; height: 500px; overflow-y: auto}
+	  li { line-height: 22px; font-size: 22px; cursor: hand; cursor: pointer;  }
+	  li:hover { font-weight: bold; color: salmon;}
+	</style>
+    
+  <script type="text/javascript">
+    var app = {};
+  </script>   
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+  <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>   
+  <script type="text/javascript" src="js/jquery.couch2.js"></script>
+  <script type="text/javascript" src="js/jquery.url.js"></script>
+	<script type="text/javascript" src="js/jquery.rotate.js"></script>
+	<script type="text/javascript" src="js/jquery.grab.js"></script> 
+	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+	<script type="text/javascript" src="js/zen.js"></script>	
+	<script type="text/javascript">
+  	var bucket = {
+      everything: function() {
+        var list = localStorage.getItem("playlist");
+        if (list) list = JSON.parse(list);
+        if (!list) list = [];
+        return list;
+      },
+      fetch: function(id) {
+        return _.detect(bucket.everything(), function(doc){ return doc._id === id; })
+      },
+      next: function(id) {
+        var matchIndex = -1;
+        _.each(bucket.everything(), function(doc, idx){ if (doc._id === id) matchIndex = idx })
+        try {
+          return bucket.fetch(bucket.everything()[matchIndex + 1]._id);          
+        } catch(e) {
+          return null;
+        }
+      },
+      add: function(newDoc) {
+        var list = bucket.everything();
+        if (bucket.fetch(newDoc._id)) return;
+        list.push(newDoc);
+        localStorage.setItem("playlist", JSON.stringify(list));
+      },
+      remove: function(id) {
+        var list = _.reject(bucket.everything(), function(doc){ return doc._id === id })
+        localStorage.setItem("playlist", JSON.stringify(list));
+      },
+      clear: function() { localStorage.removeItem("playlist") }
+    }
+  
+    function getBaseURL(path) {
+      var url = $.url(path);
+      var base = url.attr('base');
+      // construct correct URL in and out of couchdb vhosts, e.g. http://awesome.com vs. http://localhost:5984/datacouch/_design/datacouch/_rewrite
+      if (url.attr('path').indexOf("_rewrite") > 0) base = base + url.attr('path').split('_rewrite')[0] + "_rewrite";
+      return base + "/";
+    }
+  
+    $(function() {
+      app.baseURL = getBaseURL(document.location.pathname);
+      couch.request({url: app.baseURL + '/api/artists'}).then(function(artists) {
+        app.artists = artists.rows;
+        _.each(app.artists, function(artist) {
+          $('.artists').append('<li>' + artist.key + '</li>');
+        })
+        
+        $('.artists li').click(function(e) {
+          var artist = $(e.target).text();
+          couch.request({url: app.baseURL + '/api/artist/' + artist}).then(function(songs) {
+            var songsContainer = $('.songs');
+            songsContainer.html("");
+            bucket.clear();
+            app.player.changeSong(songs.rows[0].doc.url);
+            app.player.pause()
+            _(songs.rows).each(function(song) {
+              var li = $('<li>' + song.doc.album + " - " + song.doc.song + '</li>')
+              li.data('url', song.doc.url);
+              songsContainer.append(li);
+              bucket.add(song.doc);
+            })
+            $('.songs li').click(function(evt) {
+              app.player.changeSong($(evt.target).data('url'));
+              app.player.play()
+            })
+          })
+        })
+      })
+    })
+	</script>
+	
+</head>
+	
+<body>
+  
+  <div class="header">
+    <h1 class="title" style="font-family: VT323">AWWW YEAHH</h1>
+    <div id="zen">
+  		<span class="player"></span>
+  		<span class="circle"></span>
+  		<span class="progress"></span>
+  		<span class="buffer"></span>
+  		<span class="drag"></span>
+  		<div class="button">
+  			<span class="icon play"></span>
+  			<span class="icon pause"></span>
+  		</div>
+  	</div>
+  </div>
+  
+  <img class="awesome" src="rad.gif">
+  
+  
+  <body>
+    <div class="container">
+      <section id="lists">
+        <div class="row show-grid" title="Half and half">
+          <div class="span6 columns">
+            <div class="artistList">
+              <ul class="artists"></ul>
+            </div>
+          </div>
+          <div class="span10 columns">
+            <ul class="songs"></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+  
+</body>
+</html>
