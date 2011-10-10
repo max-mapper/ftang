@@ -2,41 +2,49 @@
 <html lang="en">
 <head>
 
-	<title>AWWW YEAHHHH</title>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1;"> 
-    
+  <title>AWWW YEAHHHH</title>
+  <script type="text/javascript">
+    if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+      window.location.href = "/iphone";
+    }
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width; initial-scale=1;"> 
+
   <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' />
-	<link rel="stylesheet" href="http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/zen.css">
-	<style type="text/css">
-  	html, body { height: 100%; background: #f0f0f0 url(img/bg.png) }
+  <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/zen.css">
+  <style type="text/css">
+    html, body { height: 100%; background: #f0f0f0 url(img/bg.png) }
     #zen { float: right; margin: 40px 125px 0px 0px;}
-	  .awesome { position: absolute;left: 300px;top: 0px; }
-	  .header { width: 900px; margin: 0 auto }
-	  .title { font-size: 80px; position: relative; top: 106px; left: 185px; float: left }
-	  #lists { margin-top: 207px;}
-	  .columns { font-family: "VT323"; height: 500px; overflow-y: auto}
-	  li { line-height: 22px; font-size: 22px; cursor: hand; cursor: pointer;  }
-	  li:hover { font-weight: bold; color: salmon;}
-	  .selected { font-weight: bold}
-	</style>
+    .awesome { position: absolute;left: 300px;top: 0px; }
+    .header { width: 900px; margin: 0 auto }
+    .title { font-size: 80px; position: relative; top: 106px; left: 185px; float: left }
+    #lists { margin-top: 207px;}
+    .columns { font-family: "VT323"; height: 500px; overflow-y: auto}
+    li { line-height: 22px; font-size: 22px; cursor: hand; cursor: pointer;  }
+    li:hover { font-weight: bold; color: salmon;}
+    .selected { font-weight: bold}
+  </style>
     
   <script type="text/javascript">
+    if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+      window.location.href = "/iphone";
+    }
     var app = {};
   </script>   
-	<script type="text/javascript" src="js/underscore-min.js"></script>
+  <script type="text/javascript" src="js/underscore-min.js"></script>
   <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>   
   <script type="text/javascript" src="js/jquery.couch2.js"></script>
   <script type="text/javascript" src="js/jquery.url.js"></script>
-	<script type="text/javascript" src="js/jquery.rotate.js"></script>
-	<script type="text/javascript" src="js/jquery.grab.js"></script> 
-	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/zen.js"></script>	
-	<script type="text/javascript">
-  	var bucket = {
+  <script type="text/javascript" src="js/jquery.rotate.js"></script>
+  <script type="text/javascript" src="js/jquery.grab.js"></script> 
+  <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+  <script type="text/javascript" src="js/zen.js"></script>  
+  <script type="text/javascript">
+    var bucket = {
       everything: function() {
         var list = localStorage.getItem("playlist");
         if (list) list = JSON.parse(list);
@@ -119,25 +127,25 @@
         app.player.play()
       })
     })
-	</script>
-	
+  </script>
+  
 </head>
-	
+  
 <body>
   
   <div class="header">
     <h1 class="title" style="font-family: VT323">AWWW YEAHH</h1>
     <div id="zen">
-  		<span class="player"></span>
-  		<span class="circle"></span>
-  		<span class="progress"></span>
-  		<span class="buffer"></span>
-  		<span class="drag"></span>
-  		<div class="button">
-  			<span class="icon play"></span>
-  			<span class="icon pause"></span>
-  		</div>
-  	</div>
+      <span class="player"></span>
+      <span class="circle"></span>
+      <span class="progress"></span>
+      <span class="buffer"></span>
+      <span class="drag"></span>
+      <div class="button">
+        <span class="icon play"></span>
+        <span class="icon pause"></span>
+      </div>
+    </div>
   </div>
   
   <img class="awesome" src="rad.gif">

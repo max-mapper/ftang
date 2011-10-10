@@ -6,6 +6,8 @@ ddoc =
   { _id:'_design/ftang'
   , rewrites :
     [ {from:"/", to:'index.html'}
+    , {from: "/iphone", to:'iphone.html'}
+    , {from: "/play.gif", to:'img/play.gif'}
     , {from:"/api/artists", to:'_view/artists', query: {"group": "true"}}
     , {from:"/api/artist/:artist", to:"_view/artist", query:{startkey:":artist", endkey:":artist", include_docs: "true"}}
     , {from:"/api", to:'../../'}
