@@ -24,23 +24,31 @@
   <script type="text/javascript" src="js/jquery.mustache.js"></script>
   <script type="text/javascript" src="js/jquery.couch2.js"></script>
   <script type="text/javascript" src="js/jquery.url.js"></script>
-  <script type="text/javascript" src="js/quicktime-embed.js"></script>
+  <script type="text/javascript" src="js/webaudio-playlist.js"></script>
   <script type="text/javascript">
+    var createPlaylist = require('webaudio-playlist')
 
     function addPlayer(artist) {
       couch.request({url: app.baseURL + 'api/artist/' + artist}).then(function(songs) {
         $('.artists').html("");
-        var i = 1
-          , playlist = []
-          ;
-        _(_.rest(songs.rows)).each(function(song) {
-          playlist.push({id: i, url: song.doc.url});
-          i++;
+        var playlist = [];
+        _(songs.rows).each(function(song) {
+          playlist.push(song.doc.url)
         })
-        var script = $("<script />", {
-          html: $.mustache( $( ".scriptTemplate" ).html(), {href: _.first(songs.rows).doc.url, songs: playlist} )
+
+        $('.artists').html("<h3>Play</h3>")
+
+        var player = createPlaylist(playlist)
+        
+        var playButton = document.querySelector('.artists h3')
+
+        var touchstart = 'mousedown'
+        if ('ontouchstart' in window) touchstart = 'touchstart'
+
+        playButton.addEventListener(touchstart, function(e) {
+          if (player.playing) return
+          player.start()
         })
-        $(".artists").html(script)
       })
     }
 
@@ -69,23 +77,6 @@
       <ul class="artists"></ul>
     </div>
   </body>
-  <script type="text/mustache" class="scriptTemplate">
-  //<![CDATA[
-    QT_WriteOBJECT(
-      'play.gif','305','305',''
-    , 'controller','true'
-    , 'scale','aspect'
-    , 'target','myself'
-    , 'href',"{{href}}"
-    , 'autoplay','true'
-    , 'loop','true'
-    , 'type','audio/mp3'
-  {{#songs}}
-  , 'qtnext{{id}}',"<{{url}}>T<myself>"
-  {{/songs}}
-    );
-  //]]>
-  </script>
   
 </body>
 </html>
